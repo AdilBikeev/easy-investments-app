@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf.Collections;
-using Tinkoff.InvestApi.V1;
 
 namespace Stock.API.SyncDataServices.Grps
 {
@@ -31,7 +30,7 @@ namespace Stock.API.SyncDataServices.Grps
         private readonly string _tinkoffInvestPublicApiURL;
         private readonly string _token;
 
-        public StockDataClient(IOptions<StockDataClientOptions> options, 
+        public StockDataClient(IOptions<StockDataClientOptions> options,
                                IMapper mapper,
                                ILogger<StockDataClient> logger)
         {
@@ -53,10 +52,10 @@ namespace Stock.API.SyncDataServices.Grps
             var currQuotation = candles[candles.Count - 1].Close;
 
             // Расчитываем средний максимум цены котировки за год
-            var avgHighPriceYear = candles.Sum(c => 
+            var avgHighPriceYear = candles.Sum(c =>
                 GetMoneyValue(_mapper.Map<MoneyValueDTO>(c.High))
             ) / candles.Count;
-            
+
             var instrument = _mapper.Map<InstrumentDTO>(await GetInstrumentByFigi(figiId));
 
             // Переводим вложения в валюту котировки
@@ -76,7 +75,7 @@ namespace Stock.API.SyncDataServices.Grps
                 AvgProfitMounth = Decimal.Round((decimal)avgProfitMounth, 4),
                 AvgProfitYear = Decimal.Round((decimal)avgProfitYear, 4),
                 AvgPayoutsYield = Decimal.Round(
-                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100, 
+                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100,
                     4),
                 QuantityPayments = dividends.QuantityPayments,
                 PossibleProfitSpeculation = Decimal.Round((decimal)(avgHighPriceYear - currPrice), 4) * countStocs,

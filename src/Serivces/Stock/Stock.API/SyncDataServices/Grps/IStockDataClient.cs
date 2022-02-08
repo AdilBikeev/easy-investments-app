@@ -1,6 +1,4 @@
-﻿using Stock.API.DTOs;
-
-namespace Stock.API.SyncDataServices.Grps;
+﻿namespace Stock.API.SyncDataServices.Grps;
 
 public interface IStockDataClient
 {

@@ -1,9 +1,7 @@
-﻿using FluentValidation.AspNetCore;
-using Newtonsoft.Json.Converters;
-using Stock.API.Configuration;
+﻿using System.Reflection;
+
 using Stock.API.Controllers;
 using Stock.API.SyncDataServices.Grps;
-using System.Reflection;
 
 namespace Stock.API;
 
