@@ -1,4 +1,6 @@
-﻿namespace Stock.API.Infrastracture.Helpers
+﻿using Stock.API.Infrastracture.Enums;
+
+namespace Stock.API.Infrastracture.Helpers
 {
     //TODO: Заменить на онлайн сервис конвертирование валюты.
     public static class ValuteConverterHelper
@@ -13,8 +15,8 @@
         /// </summary>
         public static readonly Dictionary<string, CurrencyCode> CurrencyCodeDict = new Dictionary<string, CurrencyCode>
         {
-            ["usd"] = CurrencyCode.USD,
-            ["rub"] = CurrencyCode.RUB,
+            ["usd"] = CurrencyCode.USD, 
+            ["rub"] = CurrencyCode.RUB, 
         };
 
         /// <summary>

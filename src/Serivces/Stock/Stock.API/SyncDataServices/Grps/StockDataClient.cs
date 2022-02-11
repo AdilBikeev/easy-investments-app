@@ -1,4 +1,7 @@
-﻿using Google.Protobuf.Collections;
+﻿using System.Net;
+
+using Google.Protobuf.Collections;
+using Tinkoff.InvestApi.V1;
 
 namespace Stock.API.SyncDataServices.Grps
 {
@@ -30,7 +33,7 @@ namespace Stock.API.SyncDataServices.Grps
         private readonly string _tinkoffInvestPublicApiURL;
         private readonly string _token;
 
-        public StockDataClient(IOptions<StockDataClientOptions> options,
+        public StockDataClient(IOptions<StockDataClientOptions> options, 
                                IMapper mapper,
                                ILogger<StockDataClient> logger)
         {
@@ -41,21 +44,20 @@ namespace Stock.API.SyncDataServices.Grps
             _token = _options.AuthToken;
         }
 
-        /// <inheritdoc/>
+        ///<inheritdoc/>
         public async Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, CurrencyCode currencyFrom)
         {
             var todayDate = DateTime.UtcNow;
             var yearAgoDate = DateTime.UtcNow.AddYears(-MAX_YEARS_INTERVAL_CANDLES);
 
-            //TODO: Учесть кейс, когда вернется пустой объект
             var candles = await GetCandlesByFigi(figiId, yearAgoDate, todayDate);
             var currQuotation = candles[candles.Count - 1].Close;
 
             // Расчитываем средний максимум цены котировки за год
-            var avgHighPriceYear = candles.Sum(c =>
+            var avgHighPriceYear = candles.Sum(c => 
                 GetMoneyValue(_mapper.Map<MoneyValueDTO>(c.High))
             ) / candles.Count;
-
+            
             var instrument = _mapper.Map<InstrumentDTO>(await GetInstrumentByFigi(figiId));
 
             // Переводим вложения в валюту котировки
@@ -64,6 +66,8 @@ namespace Stock.API.SyncDataServices.Grps
                                 currencyFrom: currencyFrom,
                                 currencyTo: instrument.Currency);
             var currPrice = GetMoneyValue(_mapper.Map<MoneyValueDTO>(currQuotation));
+
+            //TODO: Сделать, чтобы метод не только дивиденды считал (они только у акций), но и выплаты по облигациям
             var dividends = await GetDividensByFigi(figiId, yearAgoDate, todayDate);
 
             var countStocs = (int)(investedAmount / currPrice); // кол-во котировок, которое можно купить за потенциалньо вложенные деньги
@@ -75,7 +79,7 @@ namespace Stock.API.SyncDataServices.Grps
                 AvgProfitMounth = Decimal.Round((decimal)avgProfitMounth, 4),
                 AvgProfitYear = Decimal.Round((decimal)avgProfitYear, 4),
                 AvgPayoutsYield = Decimal.Round(
-                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100,
+                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100, 
                     4),
                 QuantityPayments = dividends.QuantityPayments,
                 PossibleProfitSpeculation = Decimal.Round((decimal)(avgHighPriceYear - currPrice), 4) * countStocs,
@@ -83,6 +87,7 @@ namespace Stock.API.SyncDataServices.Grps
             };
         }
 
+        ///<inheritdoc/>
         public async Task<RepeatedField<HistoricCandle>> GetCandlesByFigi(string figiId, DateTime from, DateTime to)
         {
             var channel = GrpcChannel.ForAddress(_tinkoffInvestPublicApiURL);
@@ -98,11 +103,8 @@ namespace Stock.API.SyncDataServices.Grps
                 Interval = CandleInterval.Day
             }, new CallOptions(headers));
 
-            if (resp is null)
-            {
-                //TODO: Добавить глобальный Filters ApiException
-                throw new Exception($"{this.GetType().Name}.{nameof(GetCandlesByFigi)} error request with {nameof(figiId)}={figiId}");
-            }
+            if (resp is null || resp.Candles.Count == 0)
+                throw new ApiException($"{this}.{nameof(GetCandlesByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
             return resp.Candles;
         }
@@ -125,10 +127,7 @@ namespace Stock.API.SyncDataServices.Grps
             }, new CallOptions(headers));
 
             if (resp is null)
-            {
-                //TODO: Добавить глобальный Filters ApiException
-                throw new Exception($"{this.GetType().Name}.{nameof(GetInstrumentByFigi)} error request with {nameof(figiId)}={figiId}");
-            }
+                throw new ApiException($"{this}.{nameof(GetInstrumentByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
             return resp.Instrument;
         }
@@ -153,10 +152,7 @@ namespace Stock.API.SyncDataServices.Grps
             }, new CallOptions(headers));
 
             if (resp is null)
-            {
-                //TODO: Добавить глобальный Filters ApiException
-                throw new Exception($"{this.GetType().Name}.{nameof(GetDividensByFigi)} error request with {nameof(figiId)}={figiId}");
-            }
+                throw new ApiException($"{this}.{nameof(GetDividensByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
             var dividends = resp.Dividends.Sum(dividend => GetMoneyValue(_mapper.Map<MoneyValueDTO>(dividend.DividendNet)));
             var quantityPayments = resp.Dividends.Count;
