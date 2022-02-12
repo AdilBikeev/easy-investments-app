@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EasyInvestments.Stock.API.V1;
 
-using Stock.API.Model;
-using Stock.API.SyncDataServices.Grps;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Stock.API.Controllers
+using Web.EasyInvestments.HttpAggregator.Models;
+
+namespace Web.EasyInvestments.HttpAggregator.Controller
 {
     /// <summary>
     /// Контроллер для работы с котировками.
@@ -13,12 +15,12 @@ namespace Stock.API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class StockController : ControllerBase
     {
-        private readonly IStockDataClient _stockDataClient;
+        private IStockClient _stockClient;
 
         public StockController(
-            IStockDataClient stockDataClient)
+            IStockClient stockClient)
         {
-            _stockDataClient = stockDataClient;
+            _stockClient = stockClient;
         }
 
         /// <summary>
@@ -28,12 +30,12 @@ namespace Stock.API.Controllers
         /// <param name="investedAmount">Сумма возможных инвестиций в котировку.</param>
         /// <param name="currencyFrom">Код валюты вложений.</param>
         /// <param name="currencyTo">Код валюты для отображения.</param>
-        [HttpGet("profit",Name = nameof(GetProfitByFigi))]
+        [HttpGet("profit", Name = nameof(GetProfitByFigi))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<StockProfitReadDTO>> GetProfitByFigi([FromQuery] StockProfit stockProfit)
+        public async Task<ActionResult<StockProfitReadDTO>> GetProfitByFigi([FromQuery] StockProfitRequest stockProfit)
         {
-            return Ok(await _stockDataClient.GetProfitByFigi(
+            return Ok(await _stockClient.GetProfitByFigiAsync(
                 stockProfit.FigiId,
                 stockProfit.InvestedAmount,
                 stockProfit.CurrencyFrom

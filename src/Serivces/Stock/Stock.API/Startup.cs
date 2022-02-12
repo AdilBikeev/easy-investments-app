@@ -1,8 +1,13 @@
 ﻿using FluentValidation.AspNetCore;
+
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+
 using Newtonsoft.Json.Converters;
+
 using Stock.API.Configuration;
 using Stock.API.Controllers;
 using Stock.API.SyncDataServices.Grps;
+
 using System.Reflection;
 
 namespace Stock.API;
@@ -32,16 +37,29 @@ public class Startup
             {
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
+        services.AddRouting(options => options.LowercaseUrls = true);
+
+        services.AddApiVersioning(
+            options =>
+            {
+                // reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
+                options.ReportApiVersions = true;
+            });
+
+        services.AddVersionedApiExplorer(
+                        options =>
+                        {
+                            // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+                            // note: the specified format code will format the version as "'v'major[.minor][-status]"
+                            options.GroupNameFormat = "'v'VVV";
+
+                            // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+                            // can also be used to control the format of the API version in route templates
+                            options.SubstituteApiVersionInUrl = true;
+                        });
 
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = $"easy-investments-app - {nameof(Stock)} HTTP API",
-                Version = "v1",
-                Description = "The Stock Service HTTP API"
-            });
-
             if (string.IsNullOrEmpty(AssemblyName))
                 throw new InvalidOperationException($"{nameof(AssemblyName)} cannot be null");
 
@@ -68,18 +86,18 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+    public void Configure(
+        IApplicationBuilder app,
+        IWebHostEnvironment env,
+        IApiVersionDescriptionProvider provider)
     {
-        var pathBase = Configuration["PATH_BASE"];
-        if (!string.IsNullOrEmpty(pathBase))
-        {
-            app.UsePathBase(pathBase);
-        }
-
         app.UseSwagger()
             .UseSwaggerUI(setup =>
             {
-                setup.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", $"{nameof(Stock)}.API V1");
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    setup.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
                 setup.OAuthClientId($"{nameof(Stock)}swaggerui");
                 setup.OAuthAppName($"{nameof(Stock)} Swagger UI");
             });

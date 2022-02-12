@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2D16B997-E925-4D31-9774-2870CEBC106D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Bff.EasyInvestments", "Web.Bff.EasyInvestments", "{52C7119A-5B28-4376-A55D-731AD5FE9018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.EasyInvestments.HttpAggregator", "ApiGateways\Web.Bff.EasyInvestments\Web.EasyInvestments.HttpAggregator\Web.EasyInvestments.HttpAggregator.csproj", "{567918D3-33DB-4C3F-A45F-3F3F90168A0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +38,10 @@ Global
 		{2D16B997-E925-4D31-9774-2870CEBC106D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D16B997-E925-4D31-9774-2870CEBC106D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D16B997-E925-4D31-9774-2870CEBC106D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567918D3-33DB-4C3F-A45F-3F3F90168A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567918D3-33DB-4C3F-A45F-3F3F90168A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567918D3-33DB-4C3F-A45F-3F3F90168A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567918D3-33DB-4C3F-A45F-3F3F90168A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,8 @@ Global
 		{1AE449D2-10CF-498F-8D28-CD115E663A5E} = {6E4D86D4-6B1C-48E5-A813-4B287E8E2B54}
 		{53B1D983-86BC-467F-B4B3-34BBFE890A87} = {1AE449D2-10CF-498F-8D28-CD115E663A5E}
 		{CD4842E7-F796-49B5-A855-F25150A48E94} = {F62988C3-22DA-4C51-AF76-1B7DF7804FFE}
+		{52C7119A-5B28-4376-A55D-731AD5FE9018} = {CD4842E7-F796-49B5-A855-F25150A48E94}
+		{567918D3-33DB-4C3F-A45F-3F3F90168A0C} = {52C7119A-5B28-4376-A55D-731AD5FE9018}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DCB1001-9403-4E55-8888-03214937F76D}

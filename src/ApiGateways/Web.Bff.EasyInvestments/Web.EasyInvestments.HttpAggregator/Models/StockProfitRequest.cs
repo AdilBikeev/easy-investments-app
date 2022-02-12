@@ -1,7 +1,10 @@
-﻿namespace Stock.API.Models
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+using EasyInvestments.Stock.API.V1;
+
+namespace Web.EasyInvestments.HttpAggregator.Models
 {
-    /// TODO: Перенести models на уровень ApiGateways/Web.Bff.EasyInvest
-    /// Bff - Backend For Frontend
     public record StockProfitRequest
     {
         /// <summary>
@@ -20,11 +23,9 @@
         public long InvestedAmount { get; init; }
 
         /// <summary>
-        /// Код валюты вложений.
+        /// Валюта вложений.
         /// </summary>
         [Required]
-        [DefaultValue(CurrencyCode.RUB)]
-        [JsonConverter(typeof(StringEnumConverter))]
         public CurrencyCode CurrencyFrom { get; init; }
     }
 }
