@@ -22,7 +22,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Bff.EasyInvestments", "Web.Bff.EasyInvestments", "{52C7119A-5B28-4376-A55D-731AD5FE9018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.EasyInvestments.HttpAggregator", "ApiGateways\Web.Bff.EasyInvestments\Web.EasyInvestments.HttpAggregator\Web.EasyInvestments.HttpAggregator.csproj", "{567918D3-33DB-4C3F-A45F-3F3F90168A0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.EasyInvestments.HttpAggregator", "ApiGateways\Web.Bff.EasyInvestments\Web.EasyInvestments.HttpAggregator\Web.EasyInvestments.HttpAggregator.csproj", "{567918D3-33DB-4C3F-A45F-3F3F90168A0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{626B3051-55C9-4A60-8B52-8974838FF32C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,7 @@ Global
 		{CD4842E7-F796-49B5-A855-F25150A48E94} = {F62988C3-22DA-4C51-AF76-1B7DF7804FFE}
 		{52C7119A-5B28-4376-A55D-731AD5FE9018} = {CD4842E7-F796-49B5-A855-F25150A48E94}
 		{567918D3-33DB-4C3F-A45F-3F3F90168A0C} = {52C7119A-5B28-4376-A55D-731AD5FE9018}
+		{626B3051-55C9-4A60-8B52-8974838FF32C} = {1AE449D2-10CF-498F-8D28-CD115E663A5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DCB1001-9403-4E55-8888-03214937F76D}

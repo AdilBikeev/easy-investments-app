@@ -1,5 +1,7 @@
 ﻿using System.Net;
 
+using CentralBankDailyInfoService;
+
 using Google.Protobuf.Collections;
 using Tinkoff.InvestApi.V1;
 
@@ -29,16 +31,20 @@ namespace Stock.API.SyncDataServices.Grps
 
         private readonly StockDataClientOptions _options;
         private readonly IMapper _mapper;
+        private readonly ICentralBankService _centralBankService;
         private readonly ILogger<StockDataClient> _logger;
         private readonly string _tinkoffInvestPublicApiURL;
         private readonly string _token;
 
+        /// <remarks />
         public StockDataClient(IOptions<StockDataClientOptions> options, 
                                IMapper mapper,
+                               ICentralBankService centralBankService,
                                ILogger<StockDataClient> logger)
         {
             _options = options.Value;
             _mapper = mapper;
+            _centralBankService = centralBankService;
             _logger = logger;
             _tinkoffInvestPublicApiURL = _options.TinkoffInvestPublicApiURL;
             _token = _options.AuthToken;

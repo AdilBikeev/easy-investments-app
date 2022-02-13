@@ -1,4 +1,4 @@
-﻿namespace Stock.API.Infrastracture.Exstensions
+﻿namespace Stock.API.Infrastracture.Extensions
 {
     /// <summary>
     /// Перенести в отдельную библиотеку Nuget.

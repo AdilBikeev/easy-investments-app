@@ -2,7 +2,7 @@
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;
 global using System.Text.Json.Serialization;
-
+global using System.Xml.Serialization;
 global using AutoMapper;
 
 global using Google.Protobuf.WellKnownTypes;
@@ -22,9 +22,11 @@ global using Serilog;
 
 global using Stock.API.Configuration;
 global using Stock.API.DTOs;
+global using Stock.API.Model;
 global using Stock.API.Infrastracture.Enums;
 global using Stock.API.Infrastracture.Helpers;
 global using Stock.API.Infrastracture.Exceptions;
-global using Stock.API.Infrastracture.Exstensions;
+global using Stock.API.Infrastracture.Extensions;
 
 global using Tinkoff.InvestApi.V1;
+global using Stock.API.SyncDataServices.Soap;
