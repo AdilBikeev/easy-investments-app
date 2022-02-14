@@ -167,7 +167,7 @@ namespace Stock.API.SyncDataServices.Grps
             {
                 AmountPayments = dividends,
                 QuantityPayments = quantityPayments,
-                AvgPayoutAmount = dividends / quantityPayments
+                AvgPayoutAmount = quantityPayments != 0 ? dividends / quantityPayments : 0
             };
         }
 
@@ -189,7 +189,7 @@ namespace Stock.API.SyncDataServices.Grps
         private static double CalcPayoutsYieldYear(
             double stockPrice,
             double amountOnePayout,
-            int quantityPayments) => (amountOnePayout * quantityPayments) / (stockPrice);
+            int quantityPayments) => stockPrice != 0 ? (amountOnePayout * quantityPayments) / (stockPrice) : 0;
 
     }
 }
