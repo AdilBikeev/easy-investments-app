@@ -29,6 +29,6 @@
         /// <summary>
         /// Код отображаемой валюты.
         /// </summary>
-        public CurrencyCode Currency { get; init; }
+        public string Currency { get; init; }
     }
 }

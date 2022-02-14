@@ -1,13 +1,4 @@
-﻿using System.Reflection;
-
-using Newtonsoft.Json.Converters;
-
-using Stock.API.SyncDataServices.Grps;
-using Stock.API.SyncDataServices.Soap;
-
-using static CentralBankDailyInfoService.DailyInfoSoapClient;
-
-namespace Stock.API.Infrastracture.Extensions
+﻿namespace Stock.API.Infrastracture.Extensions
 {
     /// <summary>
     /// Расширение для разделения логики в Startup.
@@ -78,6 +69,7 @@ namespace Stock.API.Infrastracture.Extensions
             services.Configure<StockDataClientOptions>(configuration.GetSection("StockDataClient"));
             services.AddTransient<IStockDataClient, StockDataClient>();
             services.AddTransient<ICentralBankService, CentralBankService>();
+            services.AddTransient<IValuteDataService, ValuteDataService>();
 
             return services;
         }

@@ -31,7 +31,7 @@ namespace Stock.API.SyncDataServices.Grps
 
         private readonly StockDataClientOptions _options;
         private readonly IMapper _mapper;
-        private readonly ICentralBankService _centralBankService;
+        private readonly IValuteDataService _valuteDataService;
         private readonly ILogger<StockDataClient> _logger;
         private readonly string _tinkoffInvestPublicApiURL;
         private readonly string _token;
@@ -39,19 +39,19 @@ namespace Stock.API.SyncDataServices.Grps
         /// <remarks />
         public StockDataClient(IOptions<StockDataClientOptions> options, 
                                IMapper mapper,
-                               ICentralBankService centralBankService,
+                               IValuteDataService valuteDataService,
                                ILogger<StockDataClient> logger)
         {
             _options = options.Value;
             _mapper = mapper;
-            _centralBankService = centralBankService;
+            _valuteDataService = valuteDataService;
             _logger = logger;
             _tinkoffInvestPublicApiURL = _options.TinkoffInvestPublicApiURL;
             _token = _options.AuthToken;
         }
 
         ///<inheritdoc/>
-        public async Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, CurrencyCode currencyFrom)
+        public async Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, string currencyFrom)
         {
             var todayDate = DateTime.UtcNow;
             var yearAgoDate = DateTime.UtcNow.AddYears(-MAX_YEARS_INTERVAL_CANDLES);
@@ -67,7 +67,7 @@ namespace Stock.API.SyncDataServices.Grps
             var instrument = _mapper.Map<InstrumentDTO>(await GetInstrumentByFigi(figiId));
 
             // Переводим вложения в валюту котировки
-            investedAmount = ValuteConverterHelper.ConvertValute(
+            investedAmount = await _valuteDataService.ConvertValute(
                                 amount: investedAmount,
                                 currencyFrom: currencyFrom,
                                 currencyTo: instrument.Currency);

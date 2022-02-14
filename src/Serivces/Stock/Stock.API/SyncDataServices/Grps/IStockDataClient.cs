@@ -14,5 +14,5 @@ public interface IStockDataClient
     /// <param name="figiId">FIGI идентификаор котирвоки.</param>
     /// <param name="investedAmount">Сумма возможных инвестиций в котировку.</param>
     /// <param name="currencyFrom">Код валюты вложений.</param>
-    public Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, CurrencyCode currencyFrom);
+    public Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, string currencyFrom);
 }

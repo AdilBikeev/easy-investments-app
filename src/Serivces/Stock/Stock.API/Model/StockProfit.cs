@@ -24,6 +24,6 @@ namespace Stock.API.Model
         /// Валюта вложений.
         /// </summary>
         [Required]
-        public CurrencyCode CurrencyFrom { get; init; }
+        public string CurrencyFrom { get; init; }
     }
 }

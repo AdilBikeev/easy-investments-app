@@ -13,10 +13,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Connected Services\**" />
+    <Content Remove="Connected Services\**" />
+    <EmbeddedResource Remove="Connected Services\**" />
+    <None Remove="Connected Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="CentralBankSDK" Version="1.0.0.2" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
     <PackageReference Include="Google.Protobuf" Version="3.19.4" />
@@ -50,6 +58,10 @@
 		<Protobuf Include="Proto\sandbox.proto" GrpcServices="Client" ProtoRoot="Proto" />
 		<Protobuf Include="Proto\stoporders.proto" GrpcServices="Client" ProtoRoot="Proto" />
 		<Protobuf Include="Proto\users.proto" GrpcServices="Client" ProtoRoot="Proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Infrastracture\Helpers\" />
 	</ItemGroup>
 
 </Project>
