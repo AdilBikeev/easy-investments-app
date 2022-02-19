@@ -1,14 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-
-using Newtonsoft.Json.Converters;
-
-using Stock.API.Configuration;
-using Stock.API.Controllers;
-using Stock.API.SyncDataServices.Grps;
-
-using System.Reflection;
+﻿using Stock.API.Infrastracture.Extensions;
 
 namespace Stock.API;
 
@@ -35,6 +25,11 @@ public class Startup
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         services.AddCustomMvc(Configuration)
+                .AddInvestApiClient((_, settings) =>
+                    {
+                        settings.AccessToken = Configuration[nameof(settings.AccessToken)];
+                    }
+                )
                 .AddHttpServices(Configuration);
     }
 

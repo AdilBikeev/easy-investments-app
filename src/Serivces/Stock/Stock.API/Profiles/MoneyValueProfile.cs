@@ -1,4 +1,6 @@
-﻿namespace Stock.API.Profiles
+﻿using Stock.API.DTOs;
+
+namespace Stock.API.Profiles
 {
     public class MoneyValueProfile : Profile
     {

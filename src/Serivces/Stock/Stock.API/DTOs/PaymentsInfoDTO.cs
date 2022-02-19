@@ -8,7 +8,7 @@
         /// <summary>
         /// Cумма выплат.
         /// </summary>
-        public double AmountPayments { get; init; }
+        public decimal AmountPayments { get; init; }
 
         /// <summary>
         /// Кол-во выплат.
@@ -18,6 +18,6 @@
         /// <summary>
         /// Средняя величина одной выплаты.
         /// </summary>
-        public double AvgPayoutAmount { get; init; }
+        public decimal AvgPayoutAmount { get; init; }
     }
 }

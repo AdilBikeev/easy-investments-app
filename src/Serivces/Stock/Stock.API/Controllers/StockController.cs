@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using Stock.API.DTOs;
 using Stock.API.Model;
 using Stock.API.SyncDataServices.Grps;
 

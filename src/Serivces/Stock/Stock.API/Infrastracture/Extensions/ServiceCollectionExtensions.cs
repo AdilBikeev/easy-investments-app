@@ -1,4 +1,8 @@
-﻿namespace Stock.API.Infrastracture.Extensions
+﻿using Stock.API.Configuration;
+using Stock.API.SyncDataServices.Grps;
+using Stock.API.SyncDataServices.Soap;
+
+namespace Stock.API.Infrastracture.Extensions
 {
     /// <summary>
     /// Расширение для разделения логики в Startup.
@@ -66,7 +70,6 @@
         {
             services.AddOptions();
 
-            services.Configure<StockDataClientOptions>(configuration.GetSection("StockDataClient"));
             services.AddTransient<IStockDataClient, StockDataClient>();
             services.AddTransient<ICentralBankService, CentralBankService>();
             services.AddTransient<IValuteDataService, ValuteDataService>();

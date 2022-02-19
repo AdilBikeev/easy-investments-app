@@ -18,7 +18,7 @@ namespace Stock.API.Model
         /// </summary>
         [Required]
         [DefaultValue(20000)]
-        public long InvestedAmount { get; init; }
+        public decimal InvestedAmount { get; init; }
 
         /// <summary>
         /// Валюта вложений.

@@ -27,7 +27,15 @@ finally
 IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
     WebHost.CreateDefaultBuilder(args)
         .CaptureStartupErrors(false)
-        .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
+        .ConfigureAppConfiguration((hostContext, builder) =>
+        {
+            builder.AddConfiguration(configuration);
+
+            if (hostContext.HostingEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Program>();
+            }
+        })
         .UseStartup<Startup>()
         .UseContentRoot(Directory.GetCurrentDirectory())
         .UseSerilog()

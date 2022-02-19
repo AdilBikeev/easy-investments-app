@@ -1,4 +1,7 @@
-﻿namespace Stock.API.Infrastracture.Filters
+﻿using Stock.API.Infrastracture.Exceptions;
+using Stock.API.Infrastracture.Extensions;
+
+namespace Stock.API.Infrastracture.Filters
 {
     /// <summary>
     /// Глобальный фильтр исключений.
