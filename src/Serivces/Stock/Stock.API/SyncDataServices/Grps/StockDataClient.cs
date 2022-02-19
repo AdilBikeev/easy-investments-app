@@ -211,7 +211,7 @@ namespace Stock.API.SyncDataServices.Grps
             if (resp is null)
                 throw new ApiException($"{this}.{nameof(GetDividensByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
-            var dividends = resp.Dividends.Sum(dividend => (decimal)_mapper.Map<MoneyValueDTO>(dividend.DividendNet));
+            var dividends = resp.Dividends.Sum(dividend => _mapper.Map<MoneyValueDTO>(dividend.DividendNet));
             var quantityPayments = resp.Dividends.Count;
 
             return new PaymentsInfoDTO
@@ -225,12 +225,12 @@ namespace Stock.API.SyncDataServices.Grps
         /// <summary>
         /// Расчитывает % годовую доходность при вложении stockPrice * stockCount.
         /// </summary>
-        /// <param name="stockPrice">Цена 1 котировки.</param>
         /// <param name="amountOnePayout">Размер 1-ой выплаты.</param>
         /// <param name="quantityPayments">Кол-во выплат.</param>
+        /// <param name="stockPrice">Цена 1 котировки.</param>
         private static decimal CalcPayoutsYieldYear(
-            decimal stockPrice,
             decimal amountOnePayout,
-            int quantityPayments) => stockPrice != 0 ? (amountOnePayout * quantityPayments) / (stockPrice) : 0;
+            int quantityPayments,
+            decimal stockPrice) => stockPrice != 0 ? (amountOnePayout * quantityPayments) / (stockPrice) : 0;
     }
 }
