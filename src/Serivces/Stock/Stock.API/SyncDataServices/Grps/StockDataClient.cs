@@ -3,10 +3,27 @@
 using CentralBankDailyInfoService;
 
 using Google.Protobuf.Collections;
+
 using Tinkoff.InvestApi.V1;
 
 namespace Stock.API.SyncDataServices.Grps
 {
+    /// <summary>
+    /// Интерфейс для работы с котировками.
+    /// </summary>
+    public interface IStockDataClient
+    {
+        /// <summary>
+        /// Возвращает информацию о прибыльности котировки.
+        /// </summary>
+        /// <param name="figiId">FIGI идентификаор котирвоки.</param>
+        /// <param name="investedAmount">Сумма возможных инвестиций в котировку.</param>
+        /// <param name="currencyFrom">Код валюты вложений.</param>
+        /// <param name="dateFrom">Начало запрашиваемого периода в часовом поясе UTC.</param>
+        /// <param name="dateTo">Окончание запрашиваемого периода в часовом поясе UTC.</param>
+        public Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, string currencyFrom, DateTime dateFrom, DateTime dateTo);
+    }
+
     public class StockDataClient : IStockDataClient
     {
         /// <summary>
@@ -20,9 +37,9 @@ namespace Stock.API.SyncDataServices.Grps
         private const short MAX_YEARS_INTERVAL_CANDLES = 1;
 
         /// <summary>
-        /// Предположительная сумма инвестирования в рублях.
+        /// Максимальный период просмотра свечей в днях.
         /// </summary>
-        //private const int InvestedAmountRUBDefault = 20000;
+        private const short MAX_DAYS_INTERVAL_CANDLES = 365;
 
         /// <summary>
         /// ClassCode для получения инф. по интсрументу используя FIGI.
@@ -37,7 +54,7 @@ namespace Stock.API.SyncDataServices.Grps
         private readonly string _token;
 
         /// <remarks />
-        public StockDataClient(IOptions<StockDataClientOptions> options, 
+        public StockDataClient(IOptions<StockDataClientOptions> options,
                                IMapper mapper,
                                IValuteDataService valuteDataService,
                                ILogger<StockDataClient> logger)
@@ -51,19 +68,16 @@ namespace Stock.API.SyncDataServices.Grps
         }
 
         ///<inheritdoc/>
-        public async Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, string currencyFrom)
+        public async Task<StockProfitReadDTO> GetProfitByFigi(string figiId, double investedAmount, string currencyFrom, DateTime dateFrom, DateTime dateTo)
         {
-            var todayDate = DateTime.UtcNow;
-            var yearAgoDate = DateTime.UtcNow.AddYears(-MAX_YEARS_INTERVAL_CANDLES);
-
-            var candles = await GetCandlesByFigi(figiId, yearAgoDate, todayDate);
+            var candles = await GetCandlesByFigi(figiId, dateFrom, dateTo);
             var currQuotation = candles[candles.Count - 1].Close;
 
             // Расчитываем средний максимум цены котировки за год
-            var avgHighPriceYear = candles.Sum(c => 
+            var avgHighPriceYear = candles.Sum(c =>
                 GetMoneyValue(_mapper.Map<MoneyValueDTO>(c.High))
             ) / candles.Count;
-            
+
             var instrument = _mapper.Map<InstrumentDTO>(await GetInstrumentByFigi(figiId));
 
             // Переводим вложения в валюту котировки
@@ -74,10 +88,12 @@ namespace Stock.API.SyncDataServices.Grps
             var currPrice = GetMoneyValue(_mapper.Map<MoneyValueDTO>(currQuotation));
 
             //TODO: Сделать, чтобы метод не только дивиденды считал (они только у акций), но и выплаты по облигациям
-            var dividends = await GetDividensByFigi(figiId, yearAgoDate, todayDate);
+            var dividends = await GetDividensByFigi(figiId, dateFrom, dateTo);
 
             var countStocs = (int)(investedAmount / currPrice); // кол-во котировок, которое можно купить за потенциалньо вложенные деньги
-            var avgProfitYear = countStocs * dividends.AvgPayoutAmount * dividends.QuantityPayments; // средняя прибыль в год
+            var avgProfitPeriod = countStocs * dividends.AvgPayoutAmount * dividends.QuantityPayments; // средняя прибыль за заданный период
+            var avgProfitYear = avgProfitPeriod / 
+                                ((dateTo - dateFrom).Days / 365); // средняя прибыль за год
             var avgProfitMounth = avgProfitYear / 12; // средняя прибыль в месяц
 
             return new StockProfitReadDTO
@@ -85,7 +101,7 @@ namespace Stock.API.SyncDataServices.Grps
                 AvgProfitMounth = Decimal.Round((decimal)avgProfitMounth, 4),
                 AvgProfitYear = Decimal.Round((decimal)avgProfitYear, 4),
                 AvgPayoutsYield = Decimal.Round(
-                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100, 
+                    (decimal)CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100,
                     4),
                 QuantityPayments = dividends.QuantityPayments,
                 PossibleProfitSpeculation = Decimal.Round((decimal)(avgHighPriceYear - currPrice), 4) * countStocs,
@@ -100,19 +116,63 @@ namespace Stock.API.SyncDataServices.Grps
             var maketDataService = new MarketDataService.MarketDataServiceClient(channel);
             var headers = new Metadata();
             headers.Add("Authorization", _token);
+            var candles = new RepeatedField<HistoricCandle>();
 
-            var resp = await maketDataService.GetCandlesAsync(new GetCandlesRequest
+            if ((to - from).Days > MAX_DAYS_INTERVAL_CANDLES)
             {
-                Figi = figiId,
-                From = Timestamp.FromDateTime(from),
-                To = Timestamp.FromDateTime(to),
-                Interval = CandleInterval.Day
-            }, new CallOptions(headers));
+                var currTo = to;
+                var currFrom = currTo.AddYears(-MAX_YEARS_INTERVAL_CANDLES);
 
-            if (resp is null || resp.Candles.Count == 0)
-                throw new ApiException($"{this}.{nameof(GetCandlesByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
+                // округляем, чтобы не терялясь погрешность в несколько днях из-за вычитания года на каждой итерации.
+                if (currFrom < from)
+                    currFrom = from;
 
-            return resp.Candles;
+                // Если превышаем интервал за счет високосного года
+                if ((currTo - currFrom).Days > MAX_DAYS_INTERVAL_CANDLES)
+                    currFrom = currFrom.AddDays(1);
+
+                while (currFrom >= from && currTo > currFrom)
+                {
+                    var resp = await maketDataService.GetCandlesAsync(new GetCandlesRequest
+                    {
+                        Figi = figiId,
+                        From = Timestamp.FromDateTime(currFrom),
+                        To = Timestamp.FromDateTime(currTo),
+                        Interval = CandleInterval.Day
+                    }, new CallOptions(headers));
+
+                    if (resp is null || resp.Candles.Count == 0)
+                        throw new ApiException($"{this}.{nameof(GetCandlesByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
+                    candles.AddRange(resp.Candles);
+
+                    currTo = currFrom;
+                    currFrom = currTo.AddYears(-MAX_YEARS_INTERVAL_CANDLES);
+
+                    // округляем, чтобы не терялясь погрешность в несколько днях из-за вычитания года на каждой итерации.
+                    if (currFrom < from)
+                        currFrom = from;
+
+                    // Если превышаем интервал за счет високосного года
+                    if ((currTo - currFrom).Days > MAX_DAYS_INTERVAL_CANDLES)
+                        currFrom = currFrom.AddDays(1);
+                }
+            }
+            else
+            {
+                var resp = await maketDataService.GetCandlesAsync(new GetCandlesRequest
+                {
+                    Figi = figiId,
+                    From = Timestamp.FromDateTime(from),
+                    To = Timestamp.FromDateTime(to),
+                    Interval = CandleInterval.Day
+                }, new CallOptions(headers));
+
+                if (resp is null || resp.Candles.Count == 0)
+                    throw new ApiException($"{this}.{nameof(GetCandlesByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
+                candles.AddRange(resp.Candles);
+            }
+
+            return candles;
         }
 
         /// <summary>

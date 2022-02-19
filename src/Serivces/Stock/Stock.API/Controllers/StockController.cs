@@ -36,7 +36,9 @@ namespace Stock.API.Controllers
             return Ok(await _stockDataClient.GetProfitByFigi(
                 stockProfit.FigiId,
                 stockProfit.InvestedAmount,
-                stockProfit.CurrencyFrom
+                stockProfit.CurrencyFrom,
+                stockProfit.DateFrom,
+                stockProfit.DateTo
                 ));
         }
     }

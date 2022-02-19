@@ -24,6 +24,22 @@ namespace Stock.API.Model
         /// Валюта вложений.
         /// </summary>
         [Required]
+        [MaxLength(4)]
+        [DefaultValue("RUB")]
         public string CurrencyFrom { get; init; }
+
+        /// <summary>
+        /// Начало запрашиваемого периода в часовом поясе UTC.
+        /// </summary>
+        [Required]
+        [DefaultValue("2017-02-06T21:48:05.826802400Z")]
+        public DateTime DateFrom { get; init; }
+
+        /// <summary>
+        /// Окончание запрашиваемого периода в часовом поясе UTC.
+        /// </summary>
+        [Required]
+        [DefaultValue("2022-02-06T21:48:05.826802400Z")]
+        public DateTime DateTo { get; init; }
     }
 }
