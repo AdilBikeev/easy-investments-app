@@ -4,7 +4,7 @@
     /// Метка для указания, что сущность является корневой сущностью агрегата.
     /// Например таблица из БД.
     /// </summary>
-    internal interface IAggregateRoot
+    public interface IAggregateRoot
     {
     }
 }

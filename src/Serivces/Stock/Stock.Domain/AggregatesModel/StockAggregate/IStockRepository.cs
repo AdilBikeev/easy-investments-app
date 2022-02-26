@@ -5,7 +5,7 @@ namespace Stock.Domain.AggregatesModel.StockAggregate
     /// <summary>
     /// Интерфейс для хранилища прибыльности котировок.
     /// </summary>
-    internal interface IStockProfitRepository : IRepository<StockProfit>
+    public interface IStockProfitRepository : IRepository<StockProfit>
     {
         /// <summary>
         /// Добавляет в хранилище новые данные
