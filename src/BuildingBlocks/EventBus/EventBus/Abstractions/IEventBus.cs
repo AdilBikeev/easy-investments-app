@@ -1,4 +1,4 @@
-﻿using EventBus.Events;
+﻿using Stock.BuildingBlocks.EventBus.Events;
 
 namespace Stock.BuildingBlocks.EventBus.Abstractions
 {

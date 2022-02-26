@@ -1,4 +1,4 @@
-﻿namespace EventBus.Events
+﻿namespace Stock.BuildingBlocks.EventBus.Events
 {
     public record IntegrationEvent
     {
