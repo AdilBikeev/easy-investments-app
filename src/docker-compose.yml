@@ -6,3 +6,9 @@ services:
     build:
       context: .
       dockerfile: Serivces/Stock/Stock.API/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  postgres:
+    image: postgres:13-alpine
