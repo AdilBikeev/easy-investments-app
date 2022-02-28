@@ -103,7 +103,7 @@ namespace Stock.API.SyncDataServices.Grps
                 AvgProfitMounth = Decimal.Round(avgProfitMounth, 4),
                 AvgProfitYear = Decimal.Round(avgProfitYear, 4),
                 AvgPayoutsYield = Decimal.Round(
-                    CalcPayoutsYieldYear(currPrice, dividends.AvgPayoutAmount, dividends.QuantityPayments) * 100,
+                    CalcPayoutsYieldYear(dividends.AvgPayoutAmount, dividends.QuantityPayments, currPrice) * 100,
                     4),
                 QuantityPayments = dividends.QuantityPayments,
                 PossibleProfitSpeculation = Decimal.Round(avgHighPriceYear - currPrice, 4) * countStocs,

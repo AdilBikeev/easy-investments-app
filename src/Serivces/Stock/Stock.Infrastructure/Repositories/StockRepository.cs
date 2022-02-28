@@ -18,5 +18,23 @@ namespace Stock.Infrastructure.Repositories
         {
             return _context.StockProfit.Add(stockProfit).Entity;
         }
+
+        /// <inheritdoc/>
+        public async Task<StockProfit> FindAsync(string figi)
+        {
+            var stockProfit = await _context.StockProfit
+                .Where(s => s.FIGI.Equals(figi))
+                .SingleOrDefaultAsync();
+
+            return stockProfit;
+        }
+
+        /// <inheritdoc/>
+        public StockProfit Update(StockProfit stockProfit)
+        {
+            return _context.StockProfit
+                    .Update(stockProfit)
+                    .Entity;
+        }
     }
 }

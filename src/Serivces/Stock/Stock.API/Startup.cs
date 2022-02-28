@@ -1,4 +1,7 @@
-﻿using Stock.API.Infrastracture.Extensions;
+﻿using Autofac.Extensions.DependencyInjection;
+
+using Stock.API.Infrastracture.AutofacModules;
+using Stock.API.Infrastracture.Extensions;
 
 namespace Stock.API;
 
@@ -14,7 +17,7 @@ public class Startup
     public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
+    public virtual IServiceProvider ConfigureServices(IServiceCollection services)
     {
         services.AddGrpc(options =>
         {
@@ -31,6 +34,15 @@ public class Startup
                     }
                 )
                 .AddHttpServices(Configuration);
+
+        //configure autofac
+        var container = new ContainerBuilder();
+        container.Populate(services);
+
+        container.RegisterModule(new MediatorModule());
+        container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+
+        return new AutofacServiceProvider(container.Build());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

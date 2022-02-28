@@ -92,5 +92,18 @@ namespace Stock.Domain.AggregatesModel.StockAggregate
             PayoutsYieldAvg = payoutsYieldAvg;
             PossibleProfitSpeculation = possibleProfitSpeculation;
         }
+
+        public StockProfit(in StockProfit stockProfit)
+        {
+            FullName = stockProfit.FullName;
+            FIGI =stockProfit.FIGI;
+            Ticker = stockProfit.Ticker;
+            InvestedAmount =stockProfit.InvestedAmount;
+            PriceAvg =stockProfit.PriceAvg;
+            QuantityPaymentsAvg = stockProfit.QuantityPaymentsAvg;
+            PayoutAvg = stockProfit.PayoutAvg;
+            PayoutsYieldAvg = stockProfit.PayoutsYieldAvg;
+            PossibleProfitSpeculation = stockProfit.PossibleProfitSpeculation;
+        }
     }
 }
