@@ -2,7 +2,7 @@
 
 using Quotation.BuildingBlocks.Database;
 using Quotation.BuildingBlocks.Database.Abstractions;
-using Quotation.Domain.AggregatesModel.QuotationAggregate;
+using QuotationAggregate = Quotation.Domain.AggregatesModel.QuotationAggregate;
 using Quotation.Domain.CsvMap;
 
 namespace Quotation.Infrastructure.Seeding
@@ -22,7 +22,8 @@ namespace Quotation.Infrastructure.Seeding
         /// </summary>
         public override void SeedData(QuotationContext dbContext)
         {
-            ImportEntitiesFromCsvFile<QuotationProfit, QuotationProfitMap, int>(dbContext);
+            //ImportEntitiesFromCsvFile<QuotationProfit, QuotationProfitMap, int>(dbContext);
+            ImportEntitiesFromCsvFile<QuotationAggregate.Quotation, QuotationMap, int>(dbContext);
         }
     }
 }

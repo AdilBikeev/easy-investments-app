@@ -11,7 +11,7 @@ namespace Quotation.Infrastructure
     public class QuotationContext : DbContext, IMigratoryDbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "quotation";
-        public DbSet<QuotationProfit> QuotationProfit { get; set; }
+        //public DbSet<QuotationProfit> QuotationProfit { get; set; }
         public DbSet<Domain.AggregatesModel.QuotationAggregate.Quotation> Quotation { get; set; }
 
         private readonly IMediator _mediator;
