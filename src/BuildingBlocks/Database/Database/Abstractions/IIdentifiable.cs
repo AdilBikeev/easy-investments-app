@@ -6,6 +6,6 @@
     /// <typeparam name="T">Тип данных для идентификатора.</typeparam>
     public interface IIdentifiable<T>
     {
-        T Id { get; set; }
+        T Id { get; }
     }
 }

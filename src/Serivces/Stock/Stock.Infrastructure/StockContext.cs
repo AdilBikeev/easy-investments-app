@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 
+using Stock.BuildingBlocks.Database.Abstractions;
 using Stock.Domain.AggregatesModel.StockAggregate;
 using Stock.Domain.SeedWork;
 using Stock.Infrastructure.EntityConfigurations;
@@ -9,7 +10,7 @@ namespace Stock.Infrastructure
     /// <summary>
     /// Описание БД котировок.
     /// </summary>
-    public class StockContext : DbContext, IUnitOfWork
+    public class StockContext : DbContext, IMigratoryDbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "stock";
         public DbSet<StockProfit> StockProfit { get; set; }
@@ -22,6 +23,8 @@ namespace Stock.Infrastructure
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
         public bool HasActiveTransaction => _currentTransaction != null;
+
+        public string SchemaName => DEFAULT_SCHEMA;
 
         public StockContext(DbContextOptions<StockContext> options, IMediator mediator) : base(options)
         {
@@ -54,6 +57,11 @@ namespace Stock.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new StockProfitEntityTypeConfiguration());
+        }
+
+        public void Migrate()
+        {
+            Database.Migrate();
         }
     }
 }

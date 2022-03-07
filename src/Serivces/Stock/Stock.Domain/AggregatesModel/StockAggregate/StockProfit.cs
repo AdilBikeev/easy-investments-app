@@ -7,7 +7,7 @@ namespace Stock.Domain.AggregatesModel.StockAggregate
     /// <summary>
     /// Таблица с информацией прибольности котировок.
     /// </summary>
-    public class StockProfit : Entity, IAggregateRoot
+    public class StockProfit : Entity<int>, IAggregateRoot
     {
         /// <summary>
         /// Полное наименование котировки.
