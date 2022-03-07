@@ -1,5 +1,5 @@
 ﻿
-using Quotation.Domain.AggregatesModel.QuotationAggregate;
+using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 
 namespace Quotation.Infrastructure.EntityConfigurations
 {

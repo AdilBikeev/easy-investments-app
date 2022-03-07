@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-
-using Quotation.BuildingBlocks.Database.Abstractions;
-using Quotation.Domain.AggregatesModel.QuotationAggregate;
+﻿using Quotation.BuildingBlocks.Database.Abstractions;
 using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 using Quotation.Domain.SeedWork;
 using Quotation.Infrastructure.EntityConfigurations;
@@ -15,6 +12,7 @@ namespace Quotation.Infrastructure
     {
         public const string DEFAULT_SCHEMA = "quotation";
         public DbSet<QuotationProfit> QuotationProfit { get; set; }
+        public DbSet<Domain.AggregatesModel.QuotationAggregate.Quotation> Quotation { get; set; }
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;

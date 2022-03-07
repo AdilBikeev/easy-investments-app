@@ -4,7 +4,7 @@ using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 
 namespace Quotation.Domain.CsvMap
 {
-    public sealed class QuotationProfitMap : ClassMap<QuotationProfit>
+    public sealed class QuotationProfitMap : ClassMap<AggregatesModel.QuotationProfitAggregate.Quotation>
     {
         public QuotationProfitMap()
         {
