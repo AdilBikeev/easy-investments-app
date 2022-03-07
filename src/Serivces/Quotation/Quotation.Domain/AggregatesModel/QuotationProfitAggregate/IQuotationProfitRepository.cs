@@ -5,7 +5,7 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
     /// <summary>
     /// Интерфейс для хранилища прибыльности котировок.
     /// </summary>
-    public interface IQuotationProfitRepository : IRepository<QuotationProfit>
+    public interface IQuotationRepository : IRepository<QuotationProfit>
     {
         /// <summary>
         /// Добавляет в хранилище новые данные

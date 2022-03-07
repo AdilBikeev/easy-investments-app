@@ -9,3 +9,4 @@ global using System.Threading;
 global using System;
 global using System.Reflection;
 global using MediatR;
+global using System.ComponentModel.DataAnnotations;

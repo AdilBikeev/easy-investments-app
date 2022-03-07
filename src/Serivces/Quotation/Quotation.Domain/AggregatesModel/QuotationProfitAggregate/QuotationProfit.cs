@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Quotation.Domain.SeedWork;
+﻿using Quotation.Domain.SeedWork;
 
 namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
 {

@@ -2,6 +2,7 @@
 
 using Quotation.BuildingBlocks.Database.Abstractions;
 using Quotation.Domain.AggregatesModel.QuotationAggregate;
+using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 using Quotation.Domain.SeedWork;
 using Quotation.Infrastructure.EntityConfigurations;
 

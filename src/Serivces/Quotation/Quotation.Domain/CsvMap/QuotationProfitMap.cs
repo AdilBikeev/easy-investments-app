@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
 
-using Quotation.Domain.AggregatesModel.QuotationAggregate;
+using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 
 namespace Quotation.Domain.CsvMap
 {
