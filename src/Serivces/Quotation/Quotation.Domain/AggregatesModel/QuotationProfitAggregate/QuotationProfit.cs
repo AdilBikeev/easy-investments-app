@@ -2,7 +2,7 @@
 
 using Quotation.Domain.SeedWork;
 
-namespace Quotation.Domain.AggregatesModel.QuotationAggregate
+namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
 {
     /// <summary>
     /// Таблица с информацией прибольности котировок.
