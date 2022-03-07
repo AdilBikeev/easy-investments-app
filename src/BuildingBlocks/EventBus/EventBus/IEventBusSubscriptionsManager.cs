@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Stock.BuildingBlocks.EventBus.Abstractions;
-using Stock.BuildingBlocks.EventBus.Events;
+using Quotation.BuildingBlocks.EventBus.Abstractions;
+using Quotation.BuildingBlocks.EventBus.Events;
 
-using static Stock.BuildingBlocks.EventBus.InMemoryEventBusSubscriptionsManager;
+using static Quotation.BuildingBlocks.EventBus.InMemoryEventBusSubscriptionsManager;
 
-namespace Stock.BuildingBlocks.EventBus
+namespace Quotation.BuildingBlocks.EventBus
 {
     public interface IEventBusSubscriptionsManager
     {

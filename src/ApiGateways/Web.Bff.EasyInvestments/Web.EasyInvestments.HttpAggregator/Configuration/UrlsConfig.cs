@@ -6,8 +6,8 @@
     internal sealed class UrlsConfig
     {
         /// <summary>
-        /// URL сервиса Stock.
+        /// URL сервиса Quotation.
         /// </summary>
-        public string Stock {get; init;}
+        public string Quotation {get; init;}
     }
 }

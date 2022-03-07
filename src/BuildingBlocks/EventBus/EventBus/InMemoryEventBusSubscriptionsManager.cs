@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Stock.BuildingBlocks.EventBus.Abstractions;
-using Stock.BuildingBlocks.EventBus.Events;
+using Quotation.BuildingBlocks.EventBus.Abstractions;
+using Quotation.BuildingBlocks.EventBus.Events;
 
-namespace Stock.BuildingBlocks.EventBus
+namespace Quotation.BuildingBlocks.EventBus
 {
     public partial class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionsManager
     {

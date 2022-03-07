@@ -1,6 +1,6 @@
-﻿using Stock.BuildingBlocks.EventBus.Events;
+﻿using Quotation.BuildingBlocks.EventBus.Events;
 
-namespace Stock.BuildingBlocks.EventBus.Abstractions
+namespace Quotation.BuildingBlocks.EventBus.Abstractions
 {
     public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler
     where TIntegrationEvent : IntegrationEvent

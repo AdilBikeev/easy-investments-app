@@ -1,4 +1,4 @@
-﻿namespace Stock.BuildingBlocks.Database.Extensions
+﻿namespace Quotation.BuildingBlocks.Database.Extensions
 {
     public static class DbContextExtensions
     {

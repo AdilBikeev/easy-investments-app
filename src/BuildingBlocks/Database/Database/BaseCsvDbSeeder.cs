@@ -1,10 +1,10 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using Stock.BuildingBlocks.Database.Abstractions;
-using Stock.BuildingBlocks.Database.Extensions;
+using Quotation.BuildingBlocks.Database.Abstractions;
+using Quotation.BuildingBlocks.Database.Extensions;
 
-namespace Stock.BuildingBlocks.Database
+namespace Quotation.BuildingBlocks.Database
 {
     /// <summary>
     /// Класс представляющая БД в формате CSV.

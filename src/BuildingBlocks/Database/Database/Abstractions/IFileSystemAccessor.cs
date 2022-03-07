@@ -1,4 +1,4 @@
-﻿namespace Stock.BuildingBlocks.Database.Abstractions
+﻿namespace Quotation.BuildingBlocks.Database.Abstractions
 {
     /// <summary>
     /// Интерфейс для работы с файлами для хранения данных.

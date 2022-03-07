@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using Stock.BuildingBlocks.Database.Abstractions;
+using Quotation.BuildingBlocks.Database.Abstractions;
 
-namespace Stock.BuildingBlocks.Database.Extensions
+namespace Quotation.BuildingBlocks.Database.Extensions
 {
     public static class ServiceCollectionExtensions
     {

@@ -1,11 +1,11 @@
 ﻿using EventBus.Extensions;
 
-using Stock.BuildingBlocks.EventBus;
-using Stock.BuildingBlocks.EventBus.Abstractions;
-using Stock.BuildingBlocks.EventBus.EventBusRabbitMQ;
-using Stock.BuildingBlocks.EventBus.Events;
+using Quotation.BuildingBlocks.EventBus;
+using Quotation.BuildingBlocks.EventBus.Abstractions;
+using Quotation.BuildingBlocks.EventBus.EventBusRabbitMQ;
+using Quotation.BuildingBlocks.EventBus.Events;
 
-namespace Stock.BuildingBlocks.EventBusRabbitMQ
+namespace Quotation.BuildingBlocks.EventBusRabbitMQ
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {

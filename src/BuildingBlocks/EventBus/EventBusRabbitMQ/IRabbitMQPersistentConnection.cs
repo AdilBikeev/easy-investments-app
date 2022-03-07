@@ -1,4 +1,4 @@
-﻿namespace Stock.BuildingBlocks.EventBus.EventBusRabbitMQ
+﻿namespace Quotation.BuildingBlocks.EventBus.EventBusRabbitMQ
 {
     public interface IRabbitMQPersistentConnection
         : IDisposable

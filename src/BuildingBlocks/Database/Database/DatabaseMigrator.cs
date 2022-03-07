@@ -1,7 +1,7 @@
-﻿using Stock.BuildingBlocks.Database.Abstractions;
-using Stock.BuildingBlocks.Database.Extensions;
+﻿using Quotation.BuildingBlocks.Database.Abstractions;
+using Quotation.BuildingBlocks.Database.Extensions;
 
-namespace Stock.BuildingBlocks.Database
+namespace Quotation.BuildingBlocks.Database
 {
     /// <summary>
     /// Производит миграцию для всех БД. БД должны быть зарегистрированы с помощью

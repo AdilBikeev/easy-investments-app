@@ -1,4 +1,4 @@
-﻿namespace Stock.BuildingBlocks.EventBus.Abstractions
+﻿namespace Quotation.BuildingBlocks.EventBus.Abstractions
 {
     public interface IDynamicIntegrationEventHandler
     {

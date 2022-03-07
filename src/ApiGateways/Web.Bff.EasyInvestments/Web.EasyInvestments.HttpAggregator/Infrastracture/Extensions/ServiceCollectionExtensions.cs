@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-using EasyInvestments.Stock.API.V1;
+using EasyInvestments.Quotation.API.V1;
 
 using Newtonsoft.Json.Converters;
 
@@ -75,8 +75,8 @@ namespace Web.EasyInvestments.HttpAggregator.Infrastracture.Extensions
             services.AddOptions();
             var urlsConf = configuration.GetSection("urls").Get<UrlsConfig>();
 
-            services.AddHttpClient<IStockClient, StockClient>(client =>
-                    client.BaseAddress = new Uri(urlsConf.Stock));
+            services.AddHttpClient<IQuotationClient, QuotationClient>(client =>
+                    client.BaseAddress = new Uri(urlsConf.Quotation));
 
             return services;
         }

@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  stock.api:
-    image: ${DOCKER_REGISTRY-}stockapi
+  Quotation.api:
+    image: ${DOCKER_REGISTRY-}Quotationapi
     build:
       context: .
-      dockerfile: Serivces/Stock/Stock.API/Dockerfile
+      dockerfile: Serivces/Quotation/Quotation.API/Dockerfile
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
