@@ -6,6 +6,7 @@ namespace Quotation.Domain.CsvMap
     {
         public QuotationMap()
         {
+            Map(m => m.Id);
             Map(m => m.Name);
             Map(m => m.FIGI);
             Map(m => m.Ticker);

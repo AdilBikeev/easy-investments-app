@@ -2,6 +2,7 @@
 
 using Quotation.API.Infrastracture.AutofacModules;
 using Quotation.API.Infrastracture.Extensions;
+using Quotation.BuildingBlocks.Database;
 
 namespace Quotation.API;
 
@@ -51,8 +52,11 @@ public class Startup
     public void Configure(
         IApplicationBuilder app,
         IWebHostEnvironment env,
+        DatabaseMigrator databaseMigrator,
         IApiVersionDescriptionProvider provider)
     {
+        databaseMigrator.Migrate();
+
         app.UseSwagger()
             .UseSwaggerUI(setup =>
             {

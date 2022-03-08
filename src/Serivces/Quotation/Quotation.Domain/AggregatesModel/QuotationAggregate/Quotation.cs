@@ -8,18 +8,18 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         /// Наименование котировки.
         /// </summary>
         [Required]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// FIGI котировки.
         /// </summary>
         [Required]
-        public string FIGI { get; private set; }
+        public string FIGI { get; set; }
 
         /// <summary>
         /// Краткое название в биржевой информации котируемых инструментов (акций, облигаций, индексов).
         /// </summary>
         [Required]
-        public string? Ticker { get; private set; }
+        public string? Ticker { get; set; }
     }
 }
