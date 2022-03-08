@@ -1,5 +1,6 @@
 ﻿using Quotation.BuildingBlocks.Database.Abstractions;
 using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
+using QuotationAggregate = Quotation.Domain.AggregatesModel.QuotationAggregate;
 using Quotation.Domain.SeedWork;
 using Quotation.Infrastructure.EntityConfigurations;
 
@@ -11,8 +12,8 @@ namespace Quotation.Infrastructure
     public class QuotationContext : DbContext, IMigratoryDbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "quotation";
-        //public DbSet<QuotationProfit> QuotationProfit { get; set; }
-        public DbSet<Domain.AggregatesModel.QuotationAggregate.Quotation> Quotation { get; set; }
+        public DbSet<QuotationProfit> QuotationProfit => Set<QuotationProfit>();
+        public DbSet<QuotationAggregate.Quotation> Quotation => Set<QuotationAggregate.Quotation>();
 
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -25,13 +26,13 @@ namespace Quotation.Infrastructure
 
         public string SchemaName => DEFAULT_SCHEMA;
 
-        public QuotationContext(DbContextOptions<QuotationContext> options, IMediator mediator) : base(options)
-        {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        //public QuotationContext(DbContextOptions<QuotationContext> options, IMediator mediator) : base(options)
+        //{
+        //    _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
 
-            System.Diagnostics.Debug.WriteLine($"{nameof(QuotationContext)}::ctor ->" + this.GetHashCode());
-        }
+        //    System.Diagnostics.Debug.WriteLine($"{nameof(QuotationContext)}::ctor ->" + this.GetHashCode());
+        //}
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
@@ -56,6 +57,7 @@ namespace Quotation.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new QuotationProfitEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new QuotationEntityTypeConfiguration());
         }
 
         public void Migrate()

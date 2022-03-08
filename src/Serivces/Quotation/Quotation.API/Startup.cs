@@ -17,7 +17,8 @@ public class Startup
     public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public virtual IServiceProvider ConfigureServices(IServiceCollection services)
+    //public virtual IServiceProvider ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         services.AddGrpc(options =>
         {
@@ -33,16 +34,17 @@ public class Startup
                         settings.AccessToken = Configuration[nameof(settings.AccessToken)];
                     }
                 )
+                .AddCustomDbContext(Configuration)
                 .AddHttpServices(Configuration);
 
         //configure autofac
-        var container = new ContainerBuilder();
-        container.Populate(services);
+        //var container = new ContainerBuilder();
+        //container.Populate(services);
 
-        container.RegisterModule(new MediatorModule());
-        container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+        //container.RegisterModule(new MediatorModule());
+        //container.RegisterModule(new ApplicationModule(Configuration["ConnectionStrings"]));
 
-        return new AutofacServiceProvider(container.Build());
+        //return new AutofacServiceProvider(container.Build());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

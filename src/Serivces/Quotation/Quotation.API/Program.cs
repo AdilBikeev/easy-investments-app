@@ -6,11 +6,11 @@ Log.Logger = CreateSerilogLogger(configuration);
 
 try
 {
-    Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
-    var host = BuildWebHost(configuration, args);
+    Log.Information("Configuring HostBuilder ({ApplicationContext})...", Program.AppName);
+    var hostBuilder = CreateHostBuilder(configuration, args);
 
-    Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
-    host.Run();
+    Log.Information("Starting host ({ApplicationContext})...", Program.AppName);
+    hostBuilder.Build().Run();
 
     return 0;
 }
@@ -24,22 +24,22 @@ finally
     Log.CloseAndFlush();
 }
 
-IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
-    WebHost.CreateDefaultBuilder(args)
-        .CaptureStartupErrors(false)
-        .ConfigureAppConfiguration((hostContext, builder) =>
-        {
-            builder.AddConfiguration(configuration);
+IHostBuilder CreateHostBuilder(IConfiguration configuration, string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(
+        webBuilder => webBuilder.CaptureStartupErrors(false)
+                    .ConfigureAppConfiguration((hostContext, builder) =>
+                    {
+                        builder.AddConfiguration(configuration);
 
-            if (hostContext.HostingEnvironment.IsDevelopment())
-            {
-                builder.AddUserSecrets<Program>();
-            }
-        })
-        .UseStartup<Startup>()
-        .UseContentRoot(Directory.GetCurrentDirectory())
-        .UseSerilog()
-        .Build();
+                        if (hostContext.HostingEnvironment.IsDevelopment())
+                        {
+                            builder.AddUserSecrets<Program>();
+                        }
+                    })
+                    .UseStartup<Startup>()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+        );
 
 Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
 {

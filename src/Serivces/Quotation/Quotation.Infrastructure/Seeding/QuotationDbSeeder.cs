@@ -7,7 +7,7 @@ using Quotation.Domain.CsvMap;
 
 namespace Quotation.Infrastructure.Seeding
 {
-    internal class QuotationDbSeeder : BaseCsvDbSeeder<QuotationContext>
+    public class QuotationDbSeeder : BaseCsvDbSeeder<QuotationContext>
     {
         public QuotationDbSeeder(
             IDbContextFactory<QuotationContext> dbContextFactory,

@@ -1,9 +1,9 @@
-﻿using Quotation.Domain.AggregatesModel.QuotationAggregate;
+﻿using QuotationAggregate = Quotation.Domain.AggregatesModel.QuotationAggregate;
 using Quotation.Domain.SeedWork;
 
 namespace Quotation.Infrastructure.Repositories
 {
-    public class QuotationRepository : IQuotationProfitRepository
+    public class QuotationRepository : QuotationAggregate.IQuotationRepository
     {
         private readonly QuotationContext _context;
         public IUnitOfWork UnitOfWork => _context;
@@ -14,25 +14,25 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationProfit Add(QuotationProfit QuotationProfit)
+        public QuotationAggregate.Quotation Add(QuotationAggregate.Quotation quotation)
         {
-            return _context.QuotationProfit.Add(QuotationProfit).Entity;
+            return _context.Quotation.Add(quotation).Entity;
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationProfit> FindAsync(string figi)
+        public async Task<QuotationAggregate.Quotation> FindByFIGIAsync(string figi)
         {
-            var QuotationProfit = await _context.QuotationProfit
+            var quotation = await _context.Quotation
                 .Where(s => s.FIGI.Equals(figi))
                 .SingleOrDefaultAsync();
 
-            return QuotationProfit;
+            return quotation;
         }
 
         /// <inheritdoc/>
-        public QuotationProfit Update(QuotationProfit QuotationProfit)
+        public QuotationAggregate.Quotation Update(QuotationAggregate.Quotation QuotationProfit)
         {
-            return _context.QuotationProfit
+            return _context.Quotation
                     .Update(QuotationProfit)
                     .Entity;
         }

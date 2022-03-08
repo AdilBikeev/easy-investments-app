@@ -1,6 +1,11 @@
 ﻿using Quotation.API.Configuration;
 using Quotation.API.SyncDataServices.Grps;
 using Quotation.API.SyncDataServices.Soap;
+using Quotation.BuildingBlocks.Database.Abstractions;
+using Quotation.BuildingBlocks.Database.Extensions;
+using Quotation.Infrastructure;
+using Quotation.Infrastructure.Repositories;
+using Quotation.Infrastructure.Seeding;
 
 namespace Quotation.API.Infrastracture.Extensions
 {
@@ -62,7 +67,7 @@ namespace Quotation.API.Infrastracture.Extensions
 
             return services;
         }
-    
+
         /// <summary>
         /// Инжектируте Http сервисы вместе и подтягивает конфигурацию для них включая URL.
         /// </summary>
@@ -73,6 +78,20 @@ namespace Quotation.API.Infrastracture.Extensions
             services.AddTransient<IQuotationDataClient, QuotationDataClient>();
             services.AddTransient<ICentralBankService, CentralBankService>();
             services.AddTransient<IValuteDataService, ValuteDataService>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Инжектирует подключения к БД.
+        /// </summary>
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.RegisterDbContextFactory<QuotationContext, MigrationHistoryRepository>(configuration, "DefaultConnection");
+
+
+            services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();
+            services.AddScoped<IDbSeeder, QuotationDbSeeder>();
 
             return services;
         }

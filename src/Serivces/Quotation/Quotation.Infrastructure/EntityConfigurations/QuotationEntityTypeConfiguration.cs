@@ -10,7 +10,7 @@ namespace Quotation.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<QuotationAggregate.Quotation> builder)
         {
-            builder.ToTable(nameof(Domain.AggregatesModel.QuotationAggregate.Quotation), QuotationContext.DEFAULT_SCHEMA);
+            builder.ToTable(nameof(QuotationAggregate.Quotation), QuotationContext.DEFAULT_SCHEMA);
             builder.HasKey(s => s.Id);
             builder.Ignore(b => b.DomainEvents);
             builder.Property(s => s.Id)

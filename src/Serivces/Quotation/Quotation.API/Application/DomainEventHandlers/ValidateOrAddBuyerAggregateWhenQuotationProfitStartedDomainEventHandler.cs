@@ -1,4 +1,4 @@
-﻿using Quotation.Domain.AggregatesModel.QuotationAggregate;
+﻿using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 using Quotation.Domain.Events;
 
 namespace Quotation.API.Application.DomainEventHandlers
@@ -31,7 +31,7 @@ namespace Quotation.API.Application.DomainEventHandlers
 
             if (!QuotationProfitOriginallyExisted)
             {
-                QuotationProfit = new QuotationProfit(_mapper.Map<QuotationProfit>(QuotationProfitStartedEvent));
+                QuotationProfit = _mapper.Map<QuotationProfit>(QuotationProfitStartedEvent);
             }
 
             var QuotationProfitUpdated = QuotationProfitOriginallyExisted ? _QuotationProfitRepository.Update(QuotationProfit)

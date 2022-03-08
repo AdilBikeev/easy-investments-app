@@ -1,4 +1,6 @@
-﻿using Quotation.Domain.SeedWork;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+using Quotation.Domain.SeedWork;
 
 namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
 {
@@ -7,6 +9,8 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
     /// </summary>
     public class QuotationProfit : Entity<int>, IAggregateRoot
     {
+        private string _figi;
+
         /// <summary>
         /// Полное наименование котировки.
         /// </summary>
@@ -17,7 +21,7 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         /// FIGI котировки.
         /// </summary>
         [Required]
-        public string FIGI { get; private set; } = default!;
+        public string FIGI { get; private set; }
 
         /// <summary>
         /// Краткое название в биржевой информации котируемых инструментов (акций, облигаций, индексов).
@@ -59,49 +63,13 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         /// Средняя доходность с выплат в % годовых.
         /// </summary>
         [Required]
-        public decimal PayoutsYieldAvg { get; init; }
+        public decimal PayoutsYieldAvg { get; private set; }
 
         /// <summary>
         /// Возможная прибыль со спекуляций.
         /// </summary>
         /// <remarks>Расчитывается как: {средний максимум цены котировки за год} - {текущая цена котировки}</remarks>
         [Required]
-        public decimal PossibleProfitSpeculation { get; init; }
-
-        public QuotationProfit(
-            string fullName,
-            string figi,
-            string ticker,
-            decimal investedAmount,
-            decimal priceAvg,
-            decimal quantityPaymentsAvg,
-            decimal payoutAvg,
-            decimal payoutsYieldAvg,
-            decimal possibleProfitSpeculation
-            )
-        {
-            FullName = fullName;
-            FIGI = figi;
-            Ticker = ticker;
-            InvestedAmount = investedAmount;
-            PriceAvg = priceAvg;
-            QuantityPaymentsAvg = quantityPaymentsAvg;
-            PayoutAvg = payoutAvg;
-            PayoutsYieldAvg = payoutsYieldAvg;
-            PossibleProfitSpeculation = possibleProfitSpeculation;
-        }
-
-        public QuotationProfit(in QuotationProfit QuotationProfit)
-        {
-            FullName = QuotationProfit.FullName;
-            FIGI =QuotationProfit.FIGI;
-            Ticker = QuotationProfit.Ticker;
-            InvestedAmount =QuotationProfit.InvestedAmount;
-            PriceAvg =QuotationProfit.PriceAvg;
-            QuantityPaymentsAvg = QuotationProfit.QuantityPaymentsAvg;
-            PayoutAvg = QuotationProfit.PayoutAvg;
-            PayoutsYieldAvg = QuotationProfit.PayoutsYieldAvg;
-            PossibleProfitSpeculation = QuotationProfit.PossibleProfitSpeculation;
-        }
+        public decimal PossibleProfitSpeculation { get; private set; }
     }
 }

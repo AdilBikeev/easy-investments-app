@@ -280,4 +280,4 @@ healthchecksdb
 # Ignores all extra inf.yaml and app.yaml that are copied by prepare-devspaces.ps1
 srcapp.yaml
 srcinf.yaml
-
+*.bak
