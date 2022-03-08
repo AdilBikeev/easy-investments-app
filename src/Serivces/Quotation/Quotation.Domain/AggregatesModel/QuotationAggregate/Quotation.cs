@@ -1,4 +1,5 @@
-﻿using Quotation.Domain.SeedWork;
+﻿using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
+using Quotation.Domain.SeedWork;
 
 namespace Quotation.Domain.AggregatesModel.QuotationAggregate
 {
@@ -21,5 +22,9 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         /// </summary>
         [Required]
         public string? Ticker { get; set; }
+
+        public QuotationProfit QuotationProfit { get; set; }
     }
 }
+
+/// Автосвойства публичные, т.к. используемый данную сущность CsvHelper поддерживает только публичные сеттеры.

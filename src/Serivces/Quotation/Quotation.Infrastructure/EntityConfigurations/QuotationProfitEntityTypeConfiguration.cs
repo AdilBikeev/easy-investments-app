@@ -1,5 +1,6 @@
 ﻿
 using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
+using QuotationAggregate = Quotation.Domain.AggregatesModel.QuotationAggregate;
 
 namespace Quotation.Infrastructure.EntityConfigurations
 {
@@ -15,6 +16,13 @@ namespace Quotation.Infrastructure.EntityConfigurations
             builder.Ignore(b => b.DomainEvents);
             builder.Property(s => s.Id)
                    .UseHiLo("quotationprofitseq", QuotationContext.DEFAULT_SCHEMA);
+
+            //builder
+            //    .HasOne<QuotationAggregate.Quotation>(p => p.Quotation)
+            //    .WithOne(q => q.QuotationProfit)
+            //    .HasForeignKey<QuotationAggregate.Quotation>(p => p.QuotationId)
+            //    .OnDelete(DeleteBehavior.NoAction)
+            //    .IsRequired();
         }
     }
 }

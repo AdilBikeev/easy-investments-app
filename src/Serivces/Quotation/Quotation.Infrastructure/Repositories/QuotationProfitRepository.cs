@@ -22,11 +22,13 @@ namespace Quotation.Infrastructure.Repositories
         /// <inheritdoc/>
         public async Task<QuotationProfit> FindAsync(string figi)
         {
-            var QuotationProfit = await _context.QuotationProfit
-                .Where(s => s.FIGI.Equals(figi))
-                .SingleOrDefaultAsync();
+            //var QuotationProfit = await _context.QuotationProfit
+            //    .Where(s => s.FIGI.Equals(figi))
+            //    .SingleOrDefaultAsync();
 
-            return QuotationProfit;
+            //return QuotationProfit;
+
+            throw new NotImplementedException(nameof(FindAsync));
         }
 
         /// <inheritdoc/>

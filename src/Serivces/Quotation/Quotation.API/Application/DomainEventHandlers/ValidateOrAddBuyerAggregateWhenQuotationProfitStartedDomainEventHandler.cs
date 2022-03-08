@@ -41,7 +41,7 @@ namespace Quotation.API.Application.DomainEventHandlers
                                         .SaveEntitiesAsync();
 
             _logger.CreateLogger<ValidateOrAddQuotationAggregateWhenQuotationProfitStartedDomainEventHandler>()
-            .LogTrace($"QuotationProfit {QuotationProfitUpdated.Id} and related payment method were validated or updated for orderId: {QuotationProfitUpdated.FIGI}.");
+            .LogTrace($"QuotationProfit {QuotationProfitUpdated.Id} and related payment method were validated or updated for FIGI: {figi}.");
         }
     }
 }

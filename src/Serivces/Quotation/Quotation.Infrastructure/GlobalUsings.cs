@@ -7,3 +7,4 @@ global using Microsoft.EntityFrameworkCore;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore.Storage;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using System.ComponentModel.DataAnnotations.Schema;

@@ -9,26 +9,6 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
     /// </summary>
     public class QuotationProfit : Entity<int>, IAggregateRoot
     {
-        private string _figi;
-
-        /// <summary>
-        /// Полное наименование котировки.
-        /// </summary>
-        [Required]
-        public string FullName { get; private set; }
-
-        /// <summary>
-        /// FIGI котировки.
-        /// </summary>
-        [Required]
-        public string FIGI { get; private set; }
-
-        /// <summary>
-        /// Краткое название в биржевой информации котируемых инструментов (акций, облигаций, индексов).
-        /// </summary>
-        [Required]
-        public string? Ticker { get; private set; }
-
         /// <summary>
         /// Сумма вложений.
         /// </summary>
@@ -71,5 +51,12 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         /// <remarks>Расчитывается как: {средний максимум цены котировки за год} - {текущая цена котировки}</remarks>
         [Required]
         public decimal PossibleProfitSpeculation { get; private set; }
+
+
+        /// <summary>
+        /// Идентификатор котировки.
+        /// </summary>
+        public int QuotationId { get; set; }
+        public QuotationAggregate.Quotation Quotation { get; private set; }
     }
 }

@@ -8,9 +8,6 @@ namespace Quotation.Domain.CsvMap
     {
         public QuotationProfitMap()
         {
-            Map(m => m.FullName);
-            Map(m => m.FIGI);
-            Map(m => m.Ticker);
             Map(m => m.InvestedAmount);
             Map(m => m.CountBuyQuotationPossible);
             Map(m => m.PriceAvg);
