@@ -14,9 +14,9 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationProfit Add(QuotationProfit QuotationProfit)
+        public async Task<QuotationProfit> AddQuotationProfitAsync(QuotationProfit QuotationProfit)
         {
-            return _context.QuotationProfit.Add(QuotationProfit).Entity;
+            return (await _context.QuotationProfit.AddAsync(QuotationProfit)).Entity;
         }
 
         /// <inheritdoc/>
@@ -32,7 +32,7 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationProfit Update(QuotationProfit QuotationProfit)
+        public QuotationProfit UpdateQuotationProfit(QuotationProfit QuotationProfit)
         {
             return _context.QuotationProfit
                     .Update(QuotationProfit)

@@ -8,16 +8,16 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
     public interface IQuotationProfitRepository : IRepository<QuotationProfit>
     {
         /// <summary>
-        /// Добавляет в хранилище новые данные
+        /// Добавляет данные по объекту <see cref="QuotationProfit"/> в хранилище.
         /// </summary>
         /// <param name="QuotationProfit">Информация о прибыльности котировки.</param>
-        QuotationProfit Add(QuotationProfit QuotationProfit);
+        Task<QuotationProfit> AddQuotationProfitAsync(QuotationProfit QuotationProfit);
 
         /// <summary>
-        /// Обновляет данные о приболности котировки в хранилище.
+        /// Обновляет по объекту <see cref="QuotationProfit"/> в хранилище.
         /// </summary>
         /// <param name="QuotationProfit">Информация о прибыльности котировки.</param>
-        QuotationProfit Update(QuotationProfit QuotationProfit);
+        QuotationProfit UpdateQuotationProfit(QuotationProfit QuotationProfit);
 
         /// <summary>
         /// Возвращает <see cref="QuotationProfit"/> по FIGI.

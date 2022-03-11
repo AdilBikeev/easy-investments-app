@@ -11,18 +11,18 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         /// Добавляет в хранилище новую котировку
         /// </summary>
         /// <param name="Quotation">Котировка.</param>
-        Quotation Add(Quotation Quotation);
+        Task<Quotation> AddQuotationAsync(Quotation Quotation);
 
         /// <summary>
         /// Обновляет данные котировки.
         /// </summary>
         /// <param name="Quotation">Котировка.</param>
-        Quotation Update(Quotation Quotation);
+        Quotation UpdateQuotation(Quotation Quotation);
         
         /// <summary>
         /// Возвращает <see cref="Quotation"/> по FIGI.
         /// </summary>
         /// <param name="figi">Уникальный идентификатор котировки.</param>
-        Task<Quotation> FindByFIGIAsync(string figi);
+        Task<Quotation> FindQuotationByFIGIAsync(string figi);
     }
 }
