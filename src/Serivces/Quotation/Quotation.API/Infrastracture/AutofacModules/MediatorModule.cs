@@ -1,5 +1,6 @@
 ﻿
 
+using Quotation.API.Application.Commands;
 using Quotation.API.Application.DomainEventHandlers;
 
 namespace Quotation.API.Infrastracture.AutofacModules
@@ -11,18 +12,23 @@ namespace Quotation.API.Infrastracture.AutofacModules
         /// </summary>
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
-            //    .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
+                .AsImplementedInterfaces();
 
-            //// Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
+            // Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
             //builder.RegisterAssemblyTypes(typeof(ValidateOrAddQuotationAggregateWhenQuotationProfitStartedDomainEventHandler).GetTypeInfo().Assembly)
             //    .AsClosedTypesOf(typeof(INotificationHandler<>));
 
-            //builder.Register<ServiceFactory>(context =>
-            //{
-            //    var componentContext = context.Resolve<IComponentContext>();
-            //    return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
-            //});
+            builder.RegisterAssemblyTypes(typeof(CreateQuotationCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<,>));
+            builder.RegisterAssemblyTypes(typeof(CreateOrUpdateQuotationProfitCommand).GetTypeInfo().Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<,>));
+
+            builder.Register<ServiceFactory>(context =>
+            {
+                var componentContext = context.Resolve<IComponentContext>();
+                return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
+            });
         }
     }
 }

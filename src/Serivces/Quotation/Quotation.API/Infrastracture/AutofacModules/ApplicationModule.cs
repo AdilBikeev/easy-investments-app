@@ -32,6 +32,10 @@ namespace Quotation.API.Infrastracture.AutofacModules
                     .As<IQuotationRepository>()
                     .InstancePerLifetimeScope();
 
+            builder.RegisterType<QuotationProfitRepository>()
+                    .As<IQuotationProfitRepository>()
+                    .InstancePerLifetimeScope();
+
             //builder.RegisterAssemblyTypes(typeof(CreateQuotationProfitCommandHandler).GetTypeInfo().Assembly)
             //    .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
         }

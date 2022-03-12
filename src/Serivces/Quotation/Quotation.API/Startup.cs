@@ -1,5 +1,6 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 
+using MediatR;
 using Quotation.API.Infrastracture.AutofacModules;
 using Quotation.API.Infrastracture.Extensions;
 using Quotation.BuildingBlocks.Database;
@@ -27,6 +28,9 @@ public class Startup
         });
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        //services.AddMediatR(typeof(Startup));
+
+        //services.AddScoped<IMediator, Mediator>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         services.AddCustomMvc(Configuration)
@@ -36,7 +40,8 @@ public class Startup
                     }
                 )
                 .AddCustomDbContext(Configuration)
-                .AddHttpServices(Configuration);
+                .AddHttpServices(Configuration)
+                .AddAutofac();
 
         //configure autofac
         //var container = new ContainerBuilder();
@@ -46,6 +51,11 @@ public class Startup
         //container.RegisterModule(new ApplicationModule(Configuration["ConnectionStrings"]));
 
         //return new AutofacServiceProvider(container.Build());
+    }
+
+    public void ConfigureContainer(ContainerBuilder builder)
+    {
+        builder.RegisterModule(new MediatorModule());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -200,7 +200,7 @@ namespace Quotation.API.SyncDataServices.Grps
                 instrument.Figi, 
                 instrument.Name, 
                 instrument.Ticker
-            );
+            ));
 
             return resp.Instrument;
         }

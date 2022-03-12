@@ -3,6 +3,8 @@ using Quotation.API.SyncDataServices.Grps;
 using Quotation.API.SyncDataServices.Soap;
 using Quotation.BuildingBlocks.Database.Abstractions;
 using Quotation.BuildingBlocks.Database.Extensions;
+using Quotation.Domain.AggregatesModel.QuotationAggregate;
+using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 using Quotation.Infrastructure;
 using Quotation.Infrastructure.Repositories;
 using Quotation.Infrastructure.Seeding;
@@ -92,6 +94,9 @@ namespace Quotation.API.Infrastracture.Extensions
 
             services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();
             services.AddScoped<IDbSeeder, QuotationDbSeeder>();
+
+            services.AddScoped<IQuotationRepository, QuotationRepository>();
+            services.AddScoped<IQuotationProfitRepository, QuotationProfitRepository>();
 
             return services;
         }

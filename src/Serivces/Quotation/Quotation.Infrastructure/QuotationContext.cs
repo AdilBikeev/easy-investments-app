@@ -21,7 +21,7 @@ namespace Quotation.Infrastructure
         /// <summary>
         /// Для операция с EF CLI.
         /// </summary>
-        public QuotationContext(DbContextOptions<QuotationContext> options) : base(options) { }
+        //public QuotationContext(DbContextOptions<QuotationContext> options) : base(options) { }
 
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 

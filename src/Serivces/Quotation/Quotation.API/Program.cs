@@ -1,4 +1,5 @@
 using Quotation.API;
+using Autofac.Extensions.DependencyInjection;
 
 var configuration = GetConfiguration();
 
@@ -26,6 +27,7 @@ finally
 
 IHostBuilder CreateHostBuilder(IConfiguration configuration, string[] args) =>
     Host.CreateDefaultBuilder(args)
+        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
         .ConfigureWebHostDefaults(
         webBuilder => webBuilder.CaptureStartupErrors(false)
                     .ConfigureAppConfiguration((hostContext, builder) =>
