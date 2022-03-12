@@ -21,5 +21,12 @@
         /// Краткое название в биржевой информации котируемых инструментов (акций, облигаций, индексов).
         /// </summary>
         public string? Ticker { get; set; }
+
+        public CreateQuotationCommand(string fIGI, string name, string? ticker)
+        {
+            FIGI = fIGI;
+            Name = name;
+            Ticker = ticker;
+        }
     }
 }

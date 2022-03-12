@@ -1,4 +1,5 @@
-﻿using Quotation.API.Configuration;
+﻿using Quotation.API.Application.Commands;
+using Quotation.API.Configuration;
 using Quotation.API.DTOs;
 using Quotation.API.Infrastracture.Exceptions;
 using Quotation.API.SyncDataServices.Soap;
@@ -48,7 +49,7 @@ namespace Quotation.API.SyncDataServices.Grps
         /// Сервис предоставления справочной информации о ценных бумагах.
         /// </summary>
         private readonly InstrumentsService.InstrumentsServiceClient _instrumentsService;
-
+        private readonly IMediator _mediator;
         private readonly QuotationDataClientOptions _options;
         private readonly IMapper _mapper;
         private readonly IValuteDataService _valuteDataService;
@@ -59,6 +60,7 @@ namespace Quotation.API.SyncDataServices.Grps
                                IMapper mapper,
                                Tinkoff.InvestApi.InvestApiClient investApiClient,
                                IValuteDataService valuteDataService,
+                               IMediator mediator,
                                ILogger<QuotationDataClient> logger)
         {
             _options = options.Value;
@@ -66,6 +68,7 @@ namespace Quotation.API.SyncDataServices.Grps
             _valuteDataService = valuteDataService;
             _marketDataService = investApiClient.MarketData;
             _instrumentsService = investApiClient.Instruments;
+            _mediator = mediator;
             _logger = logger;
         }
 
@@ -189,6 +192,13 @@ namespace Quotation.API.SyncDataServices.Grps
 
             if (resp is null)
                 throw new ApiException($"{this}.{nameof(GetInstrumentByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
+
+            var instrument = resp.Instrument;
+            _mediator.Send(new CreateQuotationCommand(
+                instrument.Figi, 
+                instrument.Name, 
+                instrument.Ticker
+            );
 
             return resp.Instrument;
         }
