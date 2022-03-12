@@ -62,8 +62,8 @@ namespace Quotation.BuildingBlocks.Database
             dbContext.DeleteAllFromTable(tableName, dbContext.SchemaName);
         }
 
-        protected void ImportEntitiesFromCsvFile<TEntity, TEntityMap, TId>(TDbContext dbContext)
-            where TEntity : class, IIdentifiable<TId>
+        protected void ImportEntitiesFromCsvFile<TEntity, TEntityMap>(TDbContext dbContext)
+            where TEntity : class, IIdentifiable
             where TEntityMap : ClassMap<TEntity>
         {
             var tableName = GetTableName<TEntity>(dbContext);

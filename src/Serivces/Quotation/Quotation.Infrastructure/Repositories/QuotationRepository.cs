@@ -14,13 +14,13 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationAggregate.Quotation> AddQuotationAsync(QuotationAggregate.Quotation quotation)
+        public async Task<QuotationAggregate.Quotation> Add(QuotationAggregate.Quotation quotation)
         {
             return _context.Quotation.Add(quotation).Entity;
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationAggregate.Quotation> FindQuotationByFIGIAsync(string figi)
+        public async Task<QuotationAggregate.Quotation?> FindByFigi(string figi)
         {
             var quotation = await _context.Quotation
                 .Where(s => s.FIGI.Equals(figi))
@@ -30,7 +30,7 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationAggregate.Quotation UpdateQuotation(QuotationAggregate.Quotation QuotationProfit)
+        public QuotationAggregate.Quotation Update(QuotationAggregate.Quotation QuotationProfit)
         {
             return _context.Quotation
                     .Update(QuotationProfit)

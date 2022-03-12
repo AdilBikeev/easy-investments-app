@@ -1,75 +1,56 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-using Quotation.Domain.SeedWork;
-
-namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
+﻿namespace Quotation.API.Application.Commands
 {
     /// <summary>
-    /// Таблица с информацией прибольности котировок.
+    /// Бизнес команда для создания или обновления инфомации по прибольности котировки
+    /// в БД.
     /// </summary>
-    public class QuotationProfit : Entity, IAggregateRoot
+    public class CreateOrUpdateQuotationProfitCommand
+        : IRequest<bool>
     {
         /// <summary>
         /// Сумма вложений.
         /// </summary>
-        [Required]
         public decimal InvestedAmount { get; private set; }
 
         /// <summary>
         /// Кол-во котировок, которое можно приобрести при данных вложениях.
         /// </summary>
-        [Required]
         public int CountBuyQuotationPossible { get; private set; }
 
         /// <summary>
         /// Средняя стоимость 1 котировки.
         /// </summary>
-        [Required]
         public decimal PriceAvg { get; private set; }
 
         /// <summary>
         /// Среднее кол-во выплат в год.
         /// </summary>
-        [Required]
         public decimal QuantityPaymentsAvg { get; private set; }
 
         /// <summary>
         /// Средний размер выплаченных дивидендов в год.
         /// </summary>
-        [Required]
         public decimal PayoutAvg { get; private set; }
 
         /// <summary>
         /// Средняя доходность с выплат в % годовых.
         /// </summary>
-        [Required]
         public decimal PayoutsYieldAvg { get; private set; }
 
         /// <summary>
         /// Возможная прибыль со спекуляций.
         /// </summary>
         /// <remarks>Расчитывается как: {средний максимум цены котировки за год} - {текущая цена котировки}</remarks>
-        [Required]
         public decimal PossibleProfitSpeculation { get; private set; }
 
+        /// <summary>
+        /// FIGI идентификатор котировки.
+        /// </summary>
+        public string FIGI { get; private set; }
 
         /// <summary>
-        /// Идентификатор котировки.
+        /// Наименование котировки.
         /// </summary>
-        public int QuotationId { get; set; }
-        public QuotationAggregate.Quotation Quotation { get; private set; }
-
-        //public void AddQuotationProfit(
-        //    decimal investedAmount, 
-        //    int countBuyQuotationPossible, 
-        //    decimal priceAvg,
-        //    decimal QuantityPaymentsAvg,
-        //    decimal PayoutAvg,
-        //    decimal PayoutsYieldAvg,
-        //    decimal PossibleProfitSpeculation,
-        //    int QuotationId)
-        //{
-
-        //}
+        public string Name { get; private set; }
     }
 }

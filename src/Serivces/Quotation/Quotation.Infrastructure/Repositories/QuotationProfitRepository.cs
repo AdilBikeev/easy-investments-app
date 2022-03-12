@@ -14,25 +14,23 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationProfit> AddQuotationProfitAsync(QuotationProfit QuotationProfit)
+        public async Task<QuotationProfit> Add(QuotationProfit QuotationProfit)
         {
             return (await _context.QuotationProfit.AddAsync(QuotationProfit)).Entity;
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationProfit> FindAsync(string figi)
+        public async Task<QuotationProfit?> FindByQuotationId(int quotationId)
         {
-            //var QuotationProfit = await _context.QuotationProfit
-            //    .Where(s => s.FIGI.Equals(figi))
-            //    .SingleOrDefaultAsync();
+            var QuotationProfit = await _context.QuotationProfit
+                .Where(s => s.QuotationId.Equals(quotationId))
+                .SingleOrDefaultAsync();
 
-            //return QuotationProfit;
-
-            throw new NotImplementedException(nameof(FindAsync));
+            return QuotationProfit;
         }
 
         /// <inheritdoc/>
-        public QuotationProfit UpdateQuotationProfit(QuotationProfit QuotationProfit)
+        public QuotationProfit Update(QuotationProfit QuotationProfit)
         {
             return _context.QuotationProfit
                     .Update(QuotationProfit)

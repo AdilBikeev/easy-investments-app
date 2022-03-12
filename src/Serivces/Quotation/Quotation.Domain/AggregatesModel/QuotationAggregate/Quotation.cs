@@ -3,7 +3,7 @@ using Quotation.Domain.SeedWork;
 
 namespace Quotation.Domain.AggregatesModel.QuotationAggregate
 {
-    public class Quotation : Entity<int>, IAggregateRoot
+    public class Quotation : Entity, IAggregateRoot
     {
         /// <summary>
         /// Наименование котировки.
@@ -24,6 +24,23 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         public string? Ticker { get; set; }
 
         public QuotationProfit QuotationProfit { get; set; }
+        
+        /// <summary>
+        /// For CsvHelper.
+        /// </summary>
+        public Quotation()
+        {
+
+        }
+
+        public Quotation(
+                string name,
+                string figi
+            )
+        {
+            Name = name;
+            FIGI = figi;
+        }
     }
 }
 

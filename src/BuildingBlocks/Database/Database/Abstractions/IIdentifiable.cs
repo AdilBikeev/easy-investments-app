@@ -1,11 +1,7 @@
 ﻿namespace Quotation.BuildingBlocks.Database.Abstractions
 {
-    /// <summary>
-    /// Интерфейс для кастомизации Id для БД.
-    /// </summary>
-    /// <typeparam name="T">Тип данных для идентификатора.</typeparam>
-    public interface IIdentifiable<T>
+    public interface IIdentifiable
     {
-        T Id { get; }
+        int Id { get; }
     }
 }

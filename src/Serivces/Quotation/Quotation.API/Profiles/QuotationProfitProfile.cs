@@ -1,4 +1,5 @@
-﻿using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
+﻿using Quotation.API.Application.Commands;
+using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 using Quotation.Domain.Events;
 
 namespace Quotation.API.Profiles
@@ -9,6 +10,7 @@ namespace Quotation.API.Profiles
         {
             // Source -> Target
             CreateMap<QuotationProfitStartedDomainEvent, QuotationProfit>();
+            CreateMap<CreateOrUpdateQuotationProfitCommand, QuotationProfit>();
         }
     }
 }

@@ -11,18 +11,18 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         /// Добавляет данные по объекту <see cref="QuotationProfit"/> в хранилище.
         /// </summary>
         /// <param name="QuotationProfit">Информация о прибыльности котировки.</param>
-        Task<QuotationProfit> AddQuotationProfitAsync(QuotationProfit QuotationProfit);
+        Task<QuotationProfit> Add(QuotationProfit QuotationProfit);
 
         /// <summary>
         /// Обновляет по объекту <see cref="QuotationProfit"/> в хранилище.
         /// </summary>
         /// <param name="QuotationProfit">Информация о прибыльности котировки.</param>
-        QuotationProfit UpdateQuotationProfit(QuotationProfit QuotationProfit);
+        QuotationProfit Update(QuotationProfit QuotationProfit);
 
         /// <summary>
-        /// Возвращает <see cref="QuotationProfit"/> по FIGI.
+        /// Возвращает <see cref="QuotationProfit"/> по quotationId.
         /// </summary>
-        /// <param name="figi">Уникальный идентификатор котировки.</param>
-        Task<QuotationProfit> FindAsync(string figi);
+        /// <param name="quotationId">Уникальный идентификатор котировки.</param>
+        Task<QuotationProfit?> FindByQuotationId(int quotationId);
     }
 }

@@ -5,9 +5,9 @@ namespace Quotation.Domain.SeedWork
     /// <summary>
     /// Класс для описания каждой сущности, описывающую таблицу в БД.
     /// </summary>
-    public abstract class Entity<T> : IIdentifiable<T>
+    public abstract class Entity : IIdentifiable
     {
-        public T Id { get; protected set; }
+        public int Id { get; protected set; }
 
         private List<INotification> _domainEvents;
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();

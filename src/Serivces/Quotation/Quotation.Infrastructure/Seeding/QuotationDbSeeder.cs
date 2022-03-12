@@ -23,7 +23,7 @@ namespace Quotation.Infrastructure.Seeding
         public override void SeedData(QuotationContext dbContext)
         {
             //ImportEntitiesFromCsvFile<QuotationProfit, QuotationProfitMap, int>(dbContext);
-            ImportEntitiesFromCsvFile<QuotationAggregate.Quotation, QuotationMap, int>(dbContext);
+            ImportEntitiesFromCsvFile<QuotationAggregate.Quotation, QuotationMap>(dbContext);
         }
     }
 }
