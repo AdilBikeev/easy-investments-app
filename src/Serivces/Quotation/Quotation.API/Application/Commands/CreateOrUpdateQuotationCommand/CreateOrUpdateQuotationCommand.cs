@@ -4,7 +4,7 @@
     /// Бизнес команда для создания или обновления инфомации по котировке
     /// в БД.
     /// </summary>
-    public class CreateQuotationCommand
+    public class CreateOrUpdateQuotationCommand
         : IRequest<bool>
     {
         /// <summary>
@@ -22,7 +22,7 @@
         /// </summary>
         public string? Ticker { get; set; }
 
-        public CreateQuotationCommand(string fIGI, string name, string? ticker)
+        public CreateOrUpdateQuotationCommand(string fIGI, string name, string? ticker)
         {
             FIGI = fIGI;
             Name = name;

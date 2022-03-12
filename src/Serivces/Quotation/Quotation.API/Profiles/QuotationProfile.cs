@@ -8,7 +8,8 @@ namespace Quotation.API.Profiles
         public QuotationProfile()
         {
             // Source -> Target
-            CreateMap<CreateQuotationCommand, QuotationProfit>();
+            CreateMap<CreateOrUpdateQuotationCommand, QuotationProfit>();
+            CreateMap<CreateOrUpdateQuotationCommand, Domain.AggregatesModel.QuotationAggregate.Quotation>();
         }
     }
 }

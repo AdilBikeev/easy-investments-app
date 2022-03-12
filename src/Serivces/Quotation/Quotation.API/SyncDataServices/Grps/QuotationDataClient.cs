@@ -196,7 +196,7 @@ namespace Quotation.API.SyncDataServices.Grps
                 throw new ApiException($"{this}.{nameof(GetInstrumentByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
             var instrument = resp.Instrument;
-            _mediator.Send(new CreateQuotationCommand(
+            _mediator.Send(new CreateOrUpdateQuotationCommand(
                 instrument.Figi, 
                 instrument.Name, 
                 instrument.Ticker

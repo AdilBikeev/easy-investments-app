@@ -19,7 +19,7 @@ namespace Quotation.API.Infrastracture.AutofacModules
             //builder.RegisterAssemblyTypes(typeof(ValidateOrAddQuotationAggregateWhenQuotationProfitStartedDomainEventHandler).GetTypeInfo().Assembly)
             //    .AsClosedTypesOf(typeof(INotificationHandler<>));
 
-            builder.RegisterAssemblyTypes(typeof(CreateQuotationCommand).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(CreateOrUpdateQuotationCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
             builder.RegisterAssemblyTypes(typeof(CreateOrUpdateQuotationProfitCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));

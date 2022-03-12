@@ -4,21 +4,21 @@ using Quotation.Domain.AggregatesModel.QuotationProfitAggregate;
 namespace Quotation.API.Application.Commands
 {
     /// <summary>
-    /// Обработчик команды <see cref="CreateQuotationCommand"/>
+    /// Обработчик команды <see cref="CreateOrUpdateQuotationCommand"/>
     /// </summary>
-    public class CreateQuotationCommandHandler
-        : IRequestHandler<CreateQuotationCommand, bool>
+    public class CreateOrUpdateQuotationCommandHandler
+        : IRequestHandler<CreateOrUpdateQuotationCommand, bool>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly QuotationAggregate.IQuotationRepository _quotationRepository;
-        private readonly ILogger<CreateQuotationCommandHandler> _logger;
+        private readonly ILogger<CreateOrUpdateQuotationCommandHandler> _logger;
 
-        public CreateQuotationCommandHandler(
+        public CreateOrUpdateQuotationCommandHandler(
             IMediator mediator,
             IMapper mapper,
             QuotationAggregate.IQuotationRepository quotationRepository,
-            ILogger<CreateQuotationCommandHandler> logger)
+            ILogger<CreateOrUpdateQuotationCommandHandler> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mediator));
@@ -26,14 +26,16 @@ namespace Quotation.API.Application.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<bool> Handle(CreateQuotationCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrUpdateQuotationCommand request, CancellationToken cancellationToken)
         {
             var quotation = await _quotationRepository.FindByFigi(request.FIGI);
-            if (quotation is not null)
-                return true;
+            var quotationExisted = quotation is not null;
 
             var quotationModel = _mapper.Map<QuotationAggregate.Quotation>(request);
-            _quotationRepository.Add(quotationModel);
+            
+            var quotationUpdate = quotationExisted ? 
+                _quotationRepository.Update(quotationModel) :
+                _quotationRepository.Add(quotationModel).Result;
 
             return await _quotationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
