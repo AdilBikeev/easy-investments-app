@@ -101,7 +101,7 @@ namespace Quotation.API.SyncDataServices.Grps
                                 ((dateTo - dateFrom).Days / 365); // средняя прибыль за год
             var avgProfitMounth = avgProfitYear / 12; // средняя прибыль в месяц
 
-            return new QuotationProfitReadDTO
+            var quotationProfitReadDTO = new QuotationProfitReadDTO
             {
                 AvgProfitMounth = Decimal.Round(avgProfitMounth, 4),
                 AvgProfitYear = Decimal.Round(avgProfitYear, 4),
@@ -112,6 +112,8 @@ namespace Quotation.API.SyncDataServices.Grps
                 PossibleProfitSpeculation = Decimal.Round(avgHighPriceYear - currPrice, 4) * countStocs,
                 Instrument = instrument
             };
+
+            return quotationProfitReadDTO;
         }
 
         ///<inheritdoc/>

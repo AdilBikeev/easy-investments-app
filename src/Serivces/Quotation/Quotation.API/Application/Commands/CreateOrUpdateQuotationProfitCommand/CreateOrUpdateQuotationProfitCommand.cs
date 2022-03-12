@@ -52,5 +52,27 @@
         /// Наименование котировки.
         /// </summary>
         public string Name { get; private set; }
+
+        public CreateOrUpdateQuotationProfitCommand(
+            decimal investedAmount,
+            int countBuyQuotationPossible,
+            decimal priceAvg,
+            decimal quantityPaymentsAvg,
+            decimal payoutAvg,
+            decimal payoutsYieldAvg,
+            decimal possibleProfitSpeculation,
+            string fIGI, 
+            string name)
+        {
+            InvestedAmount = investedAmount;
+            CountBuyQuotationPossible = countBuyQuotationPossible;
+            PriceAvg = priceAvg;
+            QuantityPaymentsAvg = quantityPaymentsAvg;
+            PayoutAvg = payoutAvg;
+            PayoutsYieldAvg = payoutsYieldAvg;
+            PossibleProfitSpeculation = possibleProfitSpeculation;
+            FIGI = fIGI;
+            Name = name;
+        }
     }
 }
