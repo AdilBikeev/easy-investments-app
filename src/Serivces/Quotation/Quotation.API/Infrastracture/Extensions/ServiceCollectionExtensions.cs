@@ -1,4 +1,5 @@
 ﻿using Quotation.API.Configuration;
+using Quotation.API.Infrastracture.Filters;
 using Quotation.API.SyncDataServices.Grps;
 using Quotation.API.SyncDataServices.Soap;
 using Quotation.BuildingBlocks.Database.Abstractions;
@@ -23,7 +24,10 @@ namespace Quotation.API.Infrastracture.Extensions
         /// </summary>
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers()
+            services.AddControllers(config =>
+                    {
+                        config.Filters.Add<ExceptionFilter>();
+                    })
                     .AddNewtonsoftJson(options =>
                     {
                         options.SerializerSettings.Converters.Add(new StringEnumConverter());
