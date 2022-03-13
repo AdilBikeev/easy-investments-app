@@ -14,12 +14,6 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationProfit> Add(QuotationProfit QuotationProfit)
-        {
-            return (await _context.QuotationProfit.AddAsync(QuotationProfit)).Entity;
-        }
-
-        /// <inheritdoc/>
         public async Task<QuotationProfit?> FindByQuotationId(int quotationId)
         {
             var QuotationProfit = await _context.QuotationProfit
@@ -30,11 +24,25 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationProfit Update(QuotationProfit QuotationProfit)
+        public QuotationProfit AddOrUpdate(QuotationProfit quotationProfit)
         {
-            return _context.QuotationProfit
-                    .Update(QuotationProfit)
-                    .Entity;
+            var quotationProfitEntity = quotationProfit.QuotationId != default(int) ?
+                quotationProfit :
+                FindByQuotationId(quotationProfit.QuotationId).Result;
+
+            var quotationExist = quotationProfitEntity is not null;
+
+            if (quotationExist)
+            {
+                //TODO: возможно нужно делать копирование Id в quotationProfit по примеру с Quotation.CopyTo
+                _context.Entry(quotationProfitEntity!).CurrentValues.SetValues(quotationProfit);
+                _context.QuotationProfit.Update(quotationProfitEntity!);
+                return quotationProfitEntity!;
+            }
+            else
+            {
+                return _context.QuotationProfit.Add(quotationProfit).Entity;
+            }
         }
     }
 }
