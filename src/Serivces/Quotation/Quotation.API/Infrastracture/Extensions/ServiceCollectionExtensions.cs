@@ -91,9 +91,9 @@ namespace Quotation.API.Infrastracture.Extensions
         {
             services.RegisterDbContextFactory<QuotationContext, MigrationHistoryRepository>(configuration, "DefaultConnection");
 
-
-            services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();
-            services.AddScoped<IDbSeeder, QuotationDbSeeder>();
+            // Obsolete - подгрузка с CSV файла уже не нужна
+            //services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();
+            //services.AddScoped<IDbSeeder, QuotationDbSeeder>();
 
             services.AddScoped<IQuotationRepository, QuotationRepository>();
             services.AddScoped<IQuotationProfitRepository, QuotationProfitRepository>();

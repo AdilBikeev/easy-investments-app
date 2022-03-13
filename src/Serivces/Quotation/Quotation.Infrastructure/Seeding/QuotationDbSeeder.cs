@@ -7,6 +7,7 @@ using Quotation.Domain.CsvMap;
 
 namespace Quotation.Infrastructure.Seeding
 {
+    [Obsolete("Подругзка из CSV файла уже не нужна. Информация по котировкам уже не является статичной")]
     public class QuotationDbSeeder : BaseCsvDbSeeder<QuotationContext>
     {
         public QuotationDbSeeder(
