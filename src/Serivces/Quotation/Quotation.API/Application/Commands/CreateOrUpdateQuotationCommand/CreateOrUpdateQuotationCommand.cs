@@ -20,11 +20,11 @@
         /// <summary>
         /// Краткое название в биржевой информации котируемых инструментов (акций, облигаций, индексов).
         /// </summary>
-        public string? Ticker { get; set; }
+        public string? Ticker { get; private set; }
 
-        public CreateOrUpdateQuotationCommand(string fIGI, string name, string? ticker)
+        public CreateOrUpdateQuotationCommand(string figi, string name, string? ticker)
         {
-            FIGI = fIGI;
+            FIGI = figi;
             Name = name;
             Ticker = ticker;
         }

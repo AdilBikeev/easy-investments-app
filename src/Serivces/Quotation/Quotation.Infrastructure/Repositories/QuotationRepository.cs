@@ -14,27 +14,34 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationAggregate.Quotation> Add(QuotationAggregate.Quotation quotation)
-        {
-            return _context.Quotation.Add(quotation).Entity;
-        }
-
-        /// <inheritdoc/>
         public async Task<QuotationAggregate.Quotation?> FindByFigi(string figi)
         {
             var quotation = await _context.Quotation
                 .Where(s => s.FIGI.Equals(figi))
                 .SingleOrDefaultAsync();
-
             return quotation;
         }
 
         /// <inheritdoc/>
-        public QuotationAggregate.Quotation Update(QuotationAggregate.Quotation QuotationProfit)
+        public QuotationAggregate.Quotation AddOrUpdate(QuotationAggregate.Quotation quotation)
         {
-            return _context.Quotation
-                    .Update(QuotationProfit)
-                    .Entity;
+            var quotationEntity = quotation.Id != default(int) ?
+                quotation :
+                FindByFigi(quotation.FIGI).Result;
+
+            var quotationExist = quotationEntity is not null;
+
+            if (quotationExist)
+            {
+                var quotationUpdate = quotationEntity!.CopyTo(quotation);
+                _context.Entry(quotationEntity).CurrentValues.SetValues(quotationUpdate);
+                _context.Quotation.Update(quotationEntity);
+                return quotationEntity;
+            } 
+            else
+            {
+                return _context.Quotation.Add(quotation).Entity;
+            }
         }
     }
 }

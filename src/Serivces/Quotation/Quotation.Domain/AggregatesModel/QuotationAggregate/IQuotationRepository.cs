@@ -8,17 +8,11 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
     public interface IQuotationRepository : IRepository<Quotation>
     {
         /// <summary>
-        /// Добавляет в хранилище новую котировку
+        /// Добавляет или обновляет <see cref="Quotation"/>
         /// </summary>
-        /// <param name="Quotation">Котировка.</param>
-        Task<Quotation> Add(Quotation Quotation);
+        /// <param name="quotation">Котировка.</param>
+        Quotation AddOrUpdate(Quotation quotation);
 
-        /// <summary>
-        /// Обновляет данные котировки.
-        /// </summary>
-        /// <param name="Quotation">Котировка.</param>
-        Quotation Update(Quotation Quotation);
-        
         /// <summary>
         /// Возвращает <see cref="Quotation"/> по FIGI.
         /// </summary>

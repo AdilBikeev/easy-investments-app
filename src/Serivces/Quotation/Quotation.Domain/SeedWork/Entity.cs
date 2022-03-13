@@ -7,6 +7,7 @@ namespace Quotation.Domain.SeedWork
     /// </summary>
     public abstract class Entity : IIdentifiable
     {
+        int? _requestedHashCode;
         public int Id { get; protected set; }
 
         private List<INotification> _domainEvents;

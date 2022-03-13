@@ -33,13 +33,28 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
 
         }
 
-        public Quotation(
-                string name,
-                string figi
-            )
+        public Quotation(string name, string fIGI, string? ticker, QuotationProfit quotationProfit)
         {
             Name = name;
-            FIGI = figi;
+            FIGI = fIGI;
+            Ticker = ticker;
+            QuotationProfit = quotationProfit;
+        }
+
+        /// <summary>
+        /// Создает новый объект с Id текущего объекта.
+        /// </summary>
+        /// <param name="quotation">Объект котировки.</param>
+        /// <param name="id">Идентификатор котировки.</param>
+        public Quotation CopyTo(Quotation quotation)
+            => new Quotation(quotation, this.Id);
+
+        private Quotation(Quotation quotation,int id)
+        {
+            Id = id;
+            Name = quotation.Name;
+            FIGI = quotation.FIGI;
+            Ticker = quotation.Ticker;
         }
     }
 }

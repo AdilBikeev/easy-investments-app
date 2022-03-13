@@ -28,14 +28,9 @@ namespace Quotation.API.Application.Commands
 
         public async Task<bool> Handle(CreateOrUpdateQuotationCommand request, CancellationToken cancellationToken)
         {
-            var quotation = await _quotationRepository.FindByFigi(request.FIGI);
-            var quotationExisted = quotation is not null;
-
             var quotationModel = _mapper.Map<QuotationAggregate.Quotation>(request);
             
-            var quotationUpdate = quotationExisted ? 
-                _quotationRepository.Update(quotationModel) :
-                _quotationRepository.Add(quotationModel).Result;
+            var quotationUpdate = _quotationRepository.AddOrUpdate(quotationModel);
 
             return await _quotationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

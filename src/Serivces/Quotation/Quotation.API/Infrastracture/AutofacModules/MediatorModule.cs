@@ -1,5 +1,6 @@
 ﻿
 
+using Quotation.API.Application.Behaviors;
 using Quotation.API.Application.Commands;
 using Quotation.API.Application.DomainEventHandlers;
 
@@ -29,6 +30,10 @@ namespace Quotation.API.Infrastracture.AutofacModules
                 var componentContext = context.Resolve<IComponentContext>();
                 return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
             });
+
+            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(ValidatorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
         }
     }
 }
