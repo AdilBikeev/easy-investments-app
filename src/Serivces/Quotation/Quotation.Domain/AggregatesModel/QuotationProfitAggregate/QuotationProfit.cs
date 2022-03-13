@@ -59,17 +59,25 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         public int QuotationId { get; set; }
         public QuotationAggregate.Quotation Quotation { get; private set; }
 
-        //public void AddQuotationProfit(
-        //    decimal investedAmount, 
-        //    int countBuyQuotationPossible, 
-        //    decimal priceAvg,
-        //    decimal QuantityPaymentsAvg,
-        //    decimal PayoutAvg,
-        //    decimal PayoutsYieldAvg,
-        //    decimal PossibleProfitSpeculation,
-        //    int QuotationId)
-        //{
+        /// <summary>
+        /// Создает новый объект с идентификатором котировки.
+        /// </summary>
+        /// <param name="quotationProfit">Объект прибыльности котировки.</param>
+        /// <param name="quotationId">Идентификатор котировки.</param>
+        public QuotationProfit CopyTo(QuotationProfit quotationProfit, int quotationId)
+            => new QuotationProfit(quotationProfit, quotationId);
 
-        //}
+        private QuotationProfit(QuotationProfit quotationProfit, int quotationId)
+        {
+            InvestedAmount = quotationProfit.InvestedAmount;
+            CountBuyQuotationPossible = quotationProfit.CountBuyQuotationPossible;
+            PriceAvg = quotationProfit.PriceAvg;
+            QuantityPaymentsAvg = quotationProfit.QuantityPaymentsAvg;
+            PayoutAvg = quotationProfit.PayoutAvg;
+            PayoutsYieldAvg = quotationProfit.PayoutsYieldAvg;
+            PossibleProfitSpeculation = quotationProfit.PossibleProfitSpeculation;
+
+            QuotationId = quotationId;
+        }
     }
 }

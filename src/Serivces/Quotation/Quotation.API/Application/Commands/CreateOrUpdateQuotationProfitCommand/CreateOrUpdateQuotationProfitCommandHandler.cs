@@ -35,12 +35,10 @@ namespace Quotation.API.Application.Commands
             if (quotation is null)
                 throw new ArgumentOutOfRangeException(nameof(request.FIGI));
 
-            var quotationProfit = await _quotationProfitRepository.FindByQuotationId(quotation.Id);
             var quotationProfitModel = _mapper.Map<QuotationProfit>(request);
-            if (quotationProfit is null)
-                _quotationProfitRepository.Add(quotationProfitModel);
-            else
-                _quotationProfitRepository.Update(quotationProfitModel);
+            var quotatipnCopyModel = quotationProfitModel.CopyTo(quotationProfitModel, quotationProfitModel.QuotationId);
+
+            var quotationProfitUpdate = _quotationProfitRepository.AddOrUpdate(quotatipnCopyModel);
 
             return await _quotationProfitRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
