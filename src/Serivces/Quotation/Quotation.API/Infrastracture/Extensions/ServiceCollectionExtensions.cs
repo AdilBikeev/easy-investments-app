@@ -99,10 +99,6 @@ namespace Quotation.API.Infrastracture.Extensions
             //services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();
             //services.AddScoped<IDbSeeder, QuotationDbSeeder>();
 
-            //TODO: Перенести логику в Autofac
-            //services.AddScoped<IQuotationRepository, QuotationRepository>();
-            //services.AddScoped<IQuotationProfitRepository, QuotationProfitRepository>();
-
             return services;
         }
     }
