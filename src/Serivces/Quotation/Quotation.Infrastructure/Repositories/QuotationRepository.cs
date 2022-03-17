@@ -18,6 +18,7 @@ namespace Quotation.Infrastructure.Repositories
         {
             var quotation = await _context.Quotation
                 .Where(s => s.FIGI.Equals(figi))
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             return quotation;
         }

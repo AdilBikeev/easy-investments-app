@@ -60,6 +60,14 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         public QuotationAggregate.Quotation Quotation { get; private set; }
 
         /// <summary>
+        /// For EF.
+        /// </summary>
+        public QuotationProfit()
+        {
+
+        }
+
+        /// <summary>
         /// Создает новый объект с идентификатором котировки.
         /// </summary>
         /// <param name="quotationProfit">Объект прибыльности котировки.</param>

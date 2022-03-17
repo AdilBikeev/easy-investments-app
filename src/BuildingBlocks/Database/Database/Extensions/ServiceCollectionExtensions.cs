@@ -18,7 +18,8 @@ namespace Quotation.BuildingBlocks.Database.Extensions
             var connectionString = configuration.GetConnectionString(connectionStringName);
             services.AddDbContext<TContext>(options =>
                 options.UseNpgsql(connectionString, b => b.MigrationsAssembly(assemblyName))
-                    .ReplaceService<IHistoryRepository, TMigrationHistoryRepository>());
+                    .ReplaceService<IHistoryRepository, TMigrationHistoryRepository>(),
+                    ServiceLifetime.Scoped);
 
             services.AddTransient(typeof(IMigratoryDbContext), typeof(TContext));
 

@@ -61,7 +61,7 @@
             decimal payoutAvg,
             decimal payoutsYieldAvg,
             decimal possibleProfitSpeculation,
-            string fIGI, 
+            string figi, 
             string name)
         {
             InvestedAmount = investedAmount;
@@ -71,7 +71,7 @@
             PayoutAvg = payoutAvg;
             PayoutsYieldAvg = payoutsYieldAvg;
             PossibleProfitSpeculation = possibleProfitSpeculation;
-            FIGI = fIGI;
+            FIGI = figi;
             Name = name;
         }
     }

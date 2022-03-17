@@ -18,6 +18,7 @@ namespace Quotation.Infrastructure.Repositories
         {
             var QuotationProfit = await _context.QuotationProfit
                 .Where(s => s.QuotationId.Equals(quotationId))
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
 
             return QuotationProfit;
@@ -26,23 +27,32 @@ namespace Quotation.Infrastructure.Repositories
         /// <inheritdoc/>
         public QuotationProfit AddOrUpdate(QuotationProfit quotationProfit)
         {
-            var quotationProfitEntity = quotationProfit.QuotationId != default(int) ?
-                quotationProfit :
-                FindByQuotationId(quotationProfit.QuotationId).Result;
-
-            var quotationExist = quotationProfitEntity is not null;
-
-            if (quotationExist)
+            try
             {
-                //TODO: возможно нужно делать копирование Id в quotationProfit по примеру с Quotation.CopyTo
-                _context.Entry(quotationProfitEntity!).CurrentValues.SetValues(quotationProfit);
-                _context.QuotationProfit.Update(quotationProfitEntity!);
-                return quotationProfitEntity!;
+                var quotationProfitEntity = quotationProfit.Id != default(int) ?
+                    quotationProfit :
+                    FindByQuotationId(quotationProfit.QuotationId).Result;
+
+                var quotationExist = quotationProfitEntity is not null;
+
+                if (quotationExist)
+                {
+                    //TODO: возможно нужно делать копирование Id в quotationProfit по примеру с Quotation.CopyTo
+                    _context.Entry(quotationProfitEntity!).CurrentValues.SetValues(quotationProfit);
+                    _context.QuotationProfit.Update(quotationProfitEntity!);
+                    return quotationProfitEntity!;
+                }
+                else
+                {
+                    return _context.QuotationProfit.Add(quotationProfit).Entity;
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return _context.QuotationProfit.Add(quotationProfit).Entity;
+                Console.WriteLine(exc);
             }
+
+            return null;
         }
     }
 }

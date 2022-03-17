@@ -26,7 +26,7 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         public QuotationProfit QuotationProfit { get; set; }
         
         /// <summary>
-        /// For CsvHelper.
+        /// For EF.
         /// </summary>
         public Quotation()
         {

@@ -32,6 +32,8 @@ namespace Quotation.API.Application.Commands
             
             var quotationUpdate = _quotationRepository.AddOrUpdate(quotationModel);
 
+            //TODO: Исправить логику вызова SaveEntities, чтобы при 1 запроса пользвоателя не было несколько вызовов SaveEntities.
+            // Можно как-то через DomainEvents организовать
             return await _quotationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }

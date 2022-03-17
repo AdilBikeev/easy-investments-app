@@ -81,9 +81,10 @@ namespace Quotation.API.SyncDataServices.Grps
             // Расчитываем средний максимум цены котировки за год
             var avgHighPriceYear = candles.Sum(c =>
                 (decimal)_mapper.Map<MoneyValueDTO>(c.High)
-            ) / candles.Count; 
+            ) / candles.Count;
 
-            var instrument = _mapper.Map<InstrumentDTO>(await GetInstrumentByFigi(figiId));
+            var instrumentModel = await GetInstrumentByFigi(figiId);
+            var instrument = _mapper.Map<InstrumentDTO>(instrumentModel);
 
             // Переводим вложения в валюту котировки
             investedAmount = await _valuteDataService.ConvertValute(
@@ -112,6 +113,19 @@ namespace Quotation.API.SyncDataServices.Grps
                 PossibleProfitSpeculation = Decimal.Round(avgHighPriceYear - currPrice, 4) * countStocs,
                 Instrument = instrument
             };
+
+            var createOrUpdateQuotationProfitCommand = new CreateOrUpdateQuotationProfitCommand(
+                investedAmount,
+                countBuyQuotationPossible: countStocs,
+                priceAvg: currPrice,
+                quantityPaymentsAvg: quotationProfitReadDTO.QuantityPayments,
+                payoutAvg: avgProfitYear,
+                payoutsYieldAvg: quotationProfitReadDTO.AvgPayoutsYield,
+                possibleProfitSpeculation: quotationProfitReadDTO.PossibleProfitSpeculation,
+                figi: instrumentModel.Figi,
+                name: instrumentModel.Name
+            );
+            _mediator.Send(createOrUpdateQuotationProfitCommand);
 
             return quotationProfitReadDTO;
         }
@@ -196,6 +210,8 @@ namespace Quotation.API.SyncDataServices.Grps
                 throw new ApiException($"{this}.{nameof(GetInstrumentByFigi)} error request with {nameof(figiId)}={figiId}", (int)HttpStatusCode.NotFound);
 
             var instrument = resp.Instrument;
+
+            //TODO: Use AutoMapper
             _mediator.Send(new CreateOrUpdateQuotationCommand(
                 instrument.Figi, 
                 instrument.Name, 

@@ -36,11 +36,11 @@ namespace Quotation.API.Application.Commands
                 throw new ArgumentOutOfRangeException(nameof(request.FIGI));
 
             var quotationProfitModel = _mapper.Map<QuotationProfit>(request);
-            var quotatipnCopyModel = quotationProfitModel.CopyTo(quotationProfitModel, quotationProfitModel.QuotationId);
+            var quotatipnCopyModel = quotationProfitModel.CopyTo(quotationProfitModel, quotation.Id);
 
             var quotationProfitUpdate = _quotationProfitRepository.AddOrUpdate(quotatipnCopyModel);
 
-            return await _quotationProfitRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            return true;//await _quotationProfitRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

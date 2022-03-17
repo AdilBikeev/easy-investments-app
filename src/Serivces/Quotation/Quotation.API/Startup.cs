@@ -56,6 +56,7 @@ public class Startup
     public void ConfigureContainer(ContainerBuilder builder)
     {
         builder.RegisterModule(new MediatorModule());
+        builder.RegisterModule(new ApplicationModule(Configuration["ConnectionStrings:DefaultConnection"]));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

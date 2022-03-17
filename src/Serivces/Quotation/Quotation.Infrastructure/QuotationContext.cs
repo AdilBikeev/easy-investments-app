@@ -42,7 +42,9 @@ namespace Quotation.Infrastructure
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            await _mediator.DispatchDomainEventsAsync(this);
+            // Add after inject DomainEvents
+            //await _mediator.DispatchDomainEventsAsync(this);
+
 
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
@@ -63,6 +65,56 @@ namespace Quotation.Infrastructure
         public void Migrate()
         {
             Database.Migrate();
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            if (_currentTransaction != null) return null;
+
+            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+            return _currentTransaction;
+        }
+
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction)
+        {
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+
+            try
+            {
+                await SaveChangesAsync();
+                transaction.Commit();
+            }
+            catch(Exception exc)
+            {
+                RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public void RollbackTransaction()
+        {
+            try
+            {
+                _currentTransaction?.Rollback();
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
         }
     }
 }
