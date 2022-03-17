@@ -28,9 +28,7 @@ public class Startup
         });
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        //services.AddMediatR(typeof(Startup));
 
-        //services.AddScoped<IMediator, Mediator>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         services.AddCustomMvc(Configuration)
@@ -42,15 +40,6 @@ public class Startup
                 .AddCustomDbContext(Configuration)
                 .AddHttpServices(Configuration)
                 .AddAutofac();
-
-        //configure autofac
-        //var container = new ContainerBuilder();
-        //container.Populate(services);
-
-        //container.RegisterModule(new MediatorModule());
-        //container.RegisterModule(new ApplicationModule(Configuration["ConnectionStrings"]));
-
-        //return new AutofacServiceProvider(container.Build());
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
