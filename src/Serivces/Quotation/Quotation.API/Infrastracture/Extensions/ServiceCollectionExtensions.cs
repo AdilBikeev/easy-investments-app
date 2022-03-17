@@ -1,4 +1,6 @@
-﻿using Quotation.API.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Quotation.API.Configuration;
 using Quotation.API.Infrastracture.Filters;
 using Quotation.API.SyncDataServices.Grps;
 using Quotation.API.SyncDataServices.Soap;
@@ -93,7 +95,18 @@ namespace Quotation.API.Infrastracture.Extensions
         /// </summary>
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.RegisterDbContextFactory<QuotationContext, MigrationHistoryRepository>(configuration, "DefaultConnection");
+            //services.RegisterDbContextFactory<QuotationContext, MigrationHistoryRepository>(configuration, "DefaultConnection");
+            services.AddDbContext<QuotationContext>(options =>
+            {
+                options.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"],
+                    npgsqlOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+                    });
+            },
+            ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
+        );
 
             // Obsolete - подгрузка с CSV файла уже не нужна
             //services.AddSingleton<IFileSystemAccessor, FileSystemAccessor>();

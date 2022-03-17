@@ -14,7 +14,7 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationProfit?> FindByQuotationId(int quotationId)
+        public async Task<QuotationProfit?> FindByQuotationIdAsync(int quotationId)
         {
             var QuotationProfit = await _context.QuotationProfit
                 .Where(s => s.QuotationId.Equals(quotationId))
@@ -25,34 +25,25 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationProfit AddOrUpdate(QuotationProfit quotationProfit)
+        public async Task<QuotationProfit> AddOrUpdateAsync(QuotationProfit quotationProfit, int quotationId)
         {
-            try
+            var quotationProfitEntity = quotationProfit.Id != default(int) ?
+                quotationProfit :
+                await FindByQuotationIdAsync(quotationId);
+
+            var quotationExist = quotationProfitEntity is not null;
+
+            if (quotationExist)
             {
-                var quotationProfitEntity = quotationProfit.Id != default(int) ?
-                    quotationProfit :
-                    FindByQuotationId(quotationProfit.QuotationId).Result;
-
-                var quotationExist = quotationProfitEntity is not null;
-
-                if (quotationExist)
-                {
-                    //TODO: возможно нужно делать копирование Id в quotationProfit по примеру с Quotation.CopyTo
-                    _context.Entry(quotationProfitEntity!).CurrentValues.SetValues(quotationProfit);
-                    _context.QuotationProfit.Update(quotationProfitEntity!);
-                    return quotationProfitEntity!;
-                }
-                else
-                {
-                    return _context.QuotationProfit.Add(quotationProfit).Entity;
-                }
+                var quotationProfitUpdate = quotationProfitEntity!.CopyTo(quotationProfit, quotationId);
+                _context.Entry(quotationProfitEntity!).CurrentValues.SetValues(quotationProfitUpdate);
+                _context.QuotationProfit.Update(quotationProfitEntity!).State = EntityState.Modified;
+                return quotationProfitEntity!;
             }
-            catch (Exception exc)
+            else
             {
-                Console.WriteLine(exc);
+                return (await _context.QuotationProfit.AddAsync(quotationProfit)).Entity;
             }
-
-            return null;
         }
     }
 }

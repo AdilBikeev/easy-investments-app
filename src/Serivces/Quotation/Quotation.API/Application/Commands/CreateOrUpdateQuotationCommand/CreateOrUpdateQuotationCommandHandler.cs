@@ -30,7 +30,7 @@ namespace Quotation.API.Application.Commands
         {
             var quotationModel = _mapper.Map<QuotationAggregate.Quotation>(request);
             
-            var quotationUpdate = _quotationRepository.AddOrUpdate(quotationModel);
+            var quotationUpdate = await _quotationRepository.AddOrUpdateAsync(quotationModel);
 
             //TODO: Исправить логику вызова SaveEntities, чтобы при 1 запроса пользвоателя не было несколько вызовов SaveEntities.
             // Можно как-то через DomainEvents организовать

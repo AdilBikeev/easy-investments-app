@@ -14,7 +14,7 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<QuotationAggregate.Quotation?> FindByFigi(string figi)
+        public async Task<QuotationAggregate.Quotation?> FindByFigiAsync(string figi)
         {
             var quotation = await _context.Quotation
                 .Where(s => s.FIGI.Equals(figi))
@@ -24,11 +24,11 @@ namespace Quotation.Infrastructure.Repositories
         }
 
         /// <inheritdoc/>
-        public QuotationAggregate.Quotation AddOrUpdate(QuotationAggregate.Quotation quotation)
+        public async Task<QuotationAggregate.Quotation> AddOrUpdateAsync(QuotationAggregate.Quotation quotation)
         {
             var quotationEntity = quotation.Id != default(int) ?
                 quotation :
-                FindByFigi(quotation.FIGI).Result;
+                await FindByFigiAsync(quotation.FIGI);
 
             var quotationExist = quotationEntity is not null;
 
@@ -41,7 +41,7 @@ namespace Quotation.Infrastructure.Repositories
             } 
             else
             {
-                return _context.Quotation.Add(quotation).Entity;
+                return (await _context.Quotation.AddAsync(quotation)).Entity;
             }
         }
     }

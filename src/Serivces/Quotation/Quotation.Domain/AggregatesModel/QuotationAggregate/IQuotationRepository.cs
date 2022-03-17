@@ -11,12 +11,12 @@ namespace Quotation.Domain.AggregatesModel.QuotationAggregate
         /// Добавляет или обновляет <see cref="Quotation"/>
         /// </summary>
         /// <param name="quotation">Котировка.</param>
-        Quotation AddOrUpdate(Quotation quotation);
+        Task<QuotationAggregate.Quotation> AddOrUpdateAsync(QuotationAggregate.Quotation quotation);
 
         /// <summary>
         /// Возвращает <see cref="Quotation"/> по FIGI.
         /// </summary>
         /// <param name="figi">Уникальный идентификатор котировки.</param>
-        Task<Quotation?> FindByFigi(string figi);
+        Task<Quotation?> FindByFigiAsync(string figi);
     }
 }

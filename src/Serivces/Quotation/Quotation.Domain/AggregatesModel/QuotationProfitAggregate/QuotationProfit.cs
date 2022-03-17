@@ -73,10 +73,11 @@ namespace Quotation.Domain.AggregatesModel.QuotationProfitAggregate
         /// <param name="quotationProfit">Объект прибыльности котировки.</param>
         /// <param name="quotationId">Идентификатор котировки.</param>
         public QuotationProfit CopyTo(QuotationProfit quotationProfit, int quotationId)
-            => new QuotationProfit(quotationProfit, quotationId);
+            => new QuotationProfit(quotationProfit, quotationId, this.Id);
 
-        private QuotationProfit(QuotationProfit quotationProfit, int quotationId)
+        private QuotationProfit(QuotationProfit quotationProfit, int quotationId, int id)
         {
+            Id = id;
             InvestedAmount = quotationProfit.InvestedAmount;
             CountBuyQuotationPossible = quotationProfit.CountBuyQuotationPossible;
             PriceAvg = quotationProfit.PriceAvg;

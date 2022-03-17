@@ -31,16 +31,15 @@ namespace Quotation.API.Application.Commands
 
         public async Task<bool> Handle(CreateOrUpdateQuotationProfitCommand request, CancellationToken cancellationToken)
         {
-            var quotation = await _quotationRepository.FindByFigi(request.FIGI);
+            var quotation = await _quotationRepository.FindByFigiAsync(request.FIGI);
             if (quotation is null)
                 throw new ArgumentOutOfRangeException(nameof(request.FIGI));
 
             var quotationProfitModel = _mapper.Map<QuotationProfit>(request);
-            var quotatipnCopyModel = quotationProfitModel.CopyTo(quotationProfitModel, quotation.Id);
 
-            var quotationProfitUpdate = _quotationProfitRepository.AddOrUpdate(quotatipnCopyModel);
+            var quotationProfitUpdate = await _quotationProfitRepository.AddOrUpdateAsync(quotationProfitModel, quotation.Id);
 
-            return true;//await _quotationProfitRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            return await _quotationProfitRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

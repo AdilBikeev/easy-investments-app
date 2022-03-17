@@ -52,10 +52,11 @@ public class Startup
     public void Configure(
         IApplicationBuilder app,
         IWebHostEnvironment env,
-        DatabaseMigrator databaseMigrator,
+        //DatabaseMigrator databaseMigrator,
         IApiVersionDescriptionProvider provider)
     {
-        databaseMigrator.Migrate();
+        //TODO: Add migrations
+        //databaseMigrator.Migrate();
 
         app.UseSwagger()
             .UseSwaggerUI(setup =>

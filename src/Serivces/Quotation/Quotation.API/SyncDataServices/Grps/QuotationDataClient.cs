@@ -125,7 +125,7 @@ namespace Quotation.API.SyncDataServices.Grps
                 figi: instrumentModel.Figi,
                 name: instrumentModel.Name
             );
-            _mediator.Send(createOrUpdateQuotationProfitCommand);
+            await _mediator.Send(createOrUpdateQuotationProfitCommand);
 
             return quotationProfitReadDTO;
         }
@@ -212,7 +212,7 @@ namespace Quotation.API.SyncDataServices.Grps
             var instrument = resp.Instrument;
 
             //TODO: Use AutoMapper
-            _mediator.Send(new CreateOrUpdateQuotationCommand(
+            await _mediator.Send(new CreateOrUpdateQuotationCommand(
                 instrument.Figi, 
                 instrument.Name, 
                 instrument.Ticker
